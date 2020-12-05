@@ -46,7 +46,7 @@
             app:srcCompat="@drawable/ic_culs_signin_button" />-->
 
         <TextView
-            android:layout_width="260dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/sign_in_button_image"
             android:layout_gravity="center_horizontal"
