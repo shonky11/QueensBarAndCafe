@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1017654581310",
+    "project_id": "qads-cafe-and-bar",
+    "storage_bucket": "qads-cafe-and-bar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017654581310:android:f83e12089a5add0d1bd96f",
+        "android_client_info": {
+          "package_name": "com.qads.queensbarandcafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017654581310-ke64av3qulrriqk6vq4d2db8okte5vsa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qads.queensbarandcafe",
+            "certificate_hash": "1a099ba47db54fcd624284d4ba04d9cba2670980"
+          }
+        },
+        {
+          "client_id": "1017654581310-ekd8gjcp439vogf1520fqo93o6sb8629.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrikeYNzcmzZD_0D4M8Kwf1ezPNsIqVBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017654581310-ekd8gjcp439vogf1520fqo93o6sb8629.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1017654581310-g3f4nc4hpqmu3g18fd46u0f6i24bgpe2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.samphillips.QADS-Cafe-and-Bar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
