@@ -1,4 +1,4 @@
-package com.qads.queensbarandcafe;
+package com.qads.queensbarandcafe.helpers;
 
 public class User {
 
