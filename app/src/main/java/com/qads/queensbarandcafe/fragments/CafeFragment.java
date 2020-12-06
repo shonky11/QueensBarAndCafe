@@ -34,7 +34,7 @@ public class CafeFragment extends Fragment {
     private Toolbar toolbar, loadedToolbar;
     private RelativeLayout relativeLayout;
     private CardView loadedCardView, searchBar;
-    private ImageView notificationsImageBtn;
+    private ImageView cartImageButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class CafeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cafe_fragment, container, false);
-        setupCollapsingToolbar(rootView);
 
         RecyclerView categoriesRecycler = (RecyclerView) rootView.findViewById(R.id.categories_rv);
 
@@ -54,6 +53,8 @@ public class CafeFragment extends Fragment {
         CategoryAdapter adapter = new CategoryAdapter(categories);
         categoriesRecycler.setAdapter(adapter);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        setupCollapsingToolbar(rootView);
 
         adapter.setOnCategoryClickListener(new CategoryAdapter.OnCategoryClickListener() {
            @Override
@@ -63,13 +64,14 @@ public class CafeFragment extends Fragment {
            }
         });
 
-        notificationsImageBtn = (ImageView) rootView.findViewById(R.id.notifications_btn);
-        notificationsImageBtn.setOnClickListener(new View.OnClickListener() {
+        cartImageButton = (ImageView) rootView.findViewById(R.id.cart_button);
+        cartImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "hehe", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "hehe", Toast.LENGTH_SHORT).show();
             }
         });
+
         return rootView;
     }
 
@@ -83,7 +85,6 @@ public class CafeFragment extends Fragment {
     }
 
     private void setupCollapsingToolbar(View rootView){
-        appBarLayout1 = (AppBarLayout) rootView.findViewById(R.id.appBarLayout);
         relativeLayout = rootView.findViewById(R.id.relative_layout);
         loadedCardView = rootView.findViewById(R.id.final_card_view);
         loadedToolbar = rootView.findViewById(R.id.final_toolbar);
@@ -102,6 +103,8 @@ public class CafeFragment extends Fragment {
     }
 
     public void onCategoryClickeroo(View v, Category clickCat){
+        Toast.makeText(getContext(), "hehe", Toast.LENGTH_SHORT).show();
+
         Fragment nextFragment = new ItemsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("Current Category", clickCat.getCategory());

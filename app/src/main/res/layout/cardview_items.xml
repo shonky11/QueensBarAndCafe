@@ -41,6 +41,5 @@
                 android:text="priceInWords" />
             />
         </RelativeLayout>
-
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

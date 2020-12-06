@@ -9,7 +9,7 @@ import com.qads.queensbarandcafe.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MenuItemAdapter extends FirestoreRecyclerAdapter {
+//public class MenuItemAdapter extends FirestoreRecyclerAdapter {
 
     class MenuItemHolder extends RecyclerView.ViewHolder {
         TextView itemName, itemDescription, price;
@@ -19,4 +19,4 @@ public class MenuItemAdapter extends FirestoreRecyclerAdapter {
           //  itemName = itemView.findViewById(R.id.)
         }
     }
-}
+//}
