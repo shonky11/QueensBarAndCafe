@@ -1,5 +1,8 @@
 package com.qads.queensbarandcafe.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuItem {
 
     private String mName;
@@ -9,6 +12,7 @@ public class MenuItem {
     private String mLocation;
     private String[] mOptions;
     private String[] mSize;
+    private List<String> basketItemId = new ArrayList<>();
 
     public MenuItem(){
 
@@ -32,6 +36,7 @@ public class MenuItem {
     public Double getPrice(){return mPrice;}
     public String[] getOptions(){return mOptions;}
     public String[] getSize(){return mSize;}
+    public List<String> getBasketItemId() {return basketItemId;}
 
     public void setName(String productName) { this.mName = productName; }
     public void setDescription(String productDescription) { this.mDescription = productDescription; }
@@ -42,5 +47,8 @@ public class MenuItem {
         this.mOptions = options;
     }
     public void setSize(String[] size) { this.mSize = size; }
+    public void addBasketItem(String newBasketItem) {
+        basketItemId.add(newBasketItem);
+    }
 
 }
