@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
                     switch(item.getItemId()){
                         case R.id.nav_cafe:
-                            selectedFragment = new BarFragment();
+                            selectedFragment = new CafeFragment();
                             break;
                         case R.id.nav_bar:
-                            selectedFragment = new CafeFragment();
+                            selectedFragment = new BarFragment();
                             break;
                     }
 

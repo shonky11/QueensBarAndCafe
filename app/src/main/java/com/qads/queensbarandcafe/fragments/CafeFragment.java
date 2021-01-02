@@ -45,7 +45,7 @@ public class CafeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.cafe_fragment, container, false);
+        rootView = inflater.inflate(R.layout.location_fragment, container, false);
 
         RecyclerView categoriesRecycler = (RecyclerView) rootView.findViewById(R.id.categories_rv);
 
@@ -88,7 +88,6 @@ public class CafeFragment extends Fragment {
         relativeLayout = rootView.findViewById(R.id.relative_layout);
         loadedCardView = rootView.findViewById(R.id.final_card_view);
         loadedToolbar = rootView.findViewById(R.id.final_toolbar);
-
     }
 
     public static ArrayList<Category> createCategoriesList() {
@@ -103,11 +102,11 @@ public class CafeFragment extends Fragment {
     }
 
     public void onCategoryClickeroo(View v, Category clickCat){
-        Toast.makeText(getContext(), "hehe", Toast.LENGTH_SHORT).show();
 
         Fragment nextFragment = new ItemsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("Current Category", clickCat.getCategory());
+        bundle.putString("Current Location", "Cafe");
         nextFragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

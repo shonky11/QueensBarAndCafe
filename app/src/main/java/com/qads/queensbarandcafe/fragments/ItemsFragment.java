@@ -16,39 +16,44 @@ import com.qads.queensbarandcafe.helpers.MenuItemAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemsFragment extends Fragment {
     private View rootView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference menuItemRef = db.collection("MenuItem");
+    private CollectionReference menuItemRef = db.collection("menuitems");
     private MenuItemAdapter adapter;
+    private String category;
+    private String location;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Bundle bundle = this.getArguments();
         rootView = inflater.inflate(R.layout.items_fragment, container, false);
+        category = bundle.getString("Current Category");
+        location = bundle.getString("Current Location");
         setUpRecyclerView();
         return rootView;
 
     }
 
-//    tutorial used priority, we don't have that, used price instead so will run, can change later
-
     private void setUpRecyclerView() {
-        Query query = menuItemRef.orderBy("price", Query.Direction.DESCENDING);
+
+        Query query = menuItemRef.whereEqualTo("location", location).whereEqualTo("category", category).whereEqualTo("stock", true).orderBy("name", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<MenuItem> options = new FirestoreRecyclerOptions.Builder<MenuItem>()
                 .setQuery(query, MenuItem.class).build();
 
         adapter = new MenuItemAdapter(options);
-
-
         RecyclerView recyclerView = rootView.findViewById(R.id.items_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
     }
 
