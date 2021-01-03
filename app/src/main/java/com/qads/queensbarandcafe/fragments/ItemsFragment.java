@@ -4,18 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.qads.queensbarandcafe.R;
+import com.qads.queensbarandcafe.activities.MainActivity;
 import com.qads.queensbarandcafe.helpers.MenuItem;
 import com.qads.queensbarandcafe.helpers.MenuItemAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +59,28 @@ public class ItemsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        adapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                String id = documentSnapshot.getId();
+                onCategoryClickmeister(id);
+                Toast.makeText(getContext(), "Position: " + position + " ID: " + id, Toast.LENGTH_SHORT).show(); }
+        });
+
+    }
+
+    public void onCategoryClickmeister(String id){
+
+        Fragment nextFragment = new ItemsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("Current MenuItem", id);
+        nextFragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 

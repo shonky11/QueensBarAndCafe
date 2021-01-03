@@ -1,11 +1,11 @@
 package com.qads.queensbarandcafe.helpers;
 
 public class User {
-
     private String mCrsid;
     private String mUid;
 
     public User(){
+
     }
 
     public User(String crsid, String uid){
