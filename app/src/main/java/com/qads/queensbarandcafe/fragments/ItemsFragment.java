@@ -65,7 +65,8 @@ public class ItemsFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String id = documentSnapshot.getId();
                 onCategoryClickmeister(id);
-                Toast.makeText(getContext(), "Position: " + position + " ID: " + id, Toast.LENGTH_SHORT).show(); }
+                MenuItem clicked = (MenuItem) adapter.getItem(position);
+                Toast.makeText(getContext(), "Position: " + position + " ID: " + clicked.getOptionsList().get(0).get("name"), Toast.LENGTH_SHORT).show(); }
         });
 
     }
