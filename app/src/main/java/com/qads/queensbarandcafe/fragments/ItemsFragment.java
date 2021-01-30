@@ -65,17 +65,18 @@ public class ItemsFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String id = documentSnapshot.getId();
                 onCategoryClickmeister(id);
-                MenuItem clicked = (MenuItem) adapter.getItem(position);
-                Toast.makeText(getContext(), "Position: " + position + " ID: " + clicked.getOptionsList().get(0).get("name"), Toast.LENGTH_SHORT).show(); }
+                MenuItem clicked = (MenuItem) adapter.getItem(position); //e.g whole latte documentå
+                //Toast.makeText(getContext(), "Position: " + position + " ID: " + clicked.getOptionsList().get(1).get("name"), Toast.LENGTH_SHORT).show();
+            }
         });
 
     }
 
     public void onCategoryClickmeister(String id){
 
-        Fragment nextFragment = new ItemsFragment();
+        Fragment nextFragment = new ItemsFragment(); //change this to expanded fragment name
         Bundle bundle = new Bundle();
-        bundle.putString("Current MenuItem", id);
+        bundle.putString("Current MenuItem", id); //the key is the "Current MenuItem
         nextFragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

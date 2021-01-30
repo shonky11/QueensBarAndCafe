@@ -1,19 +1,34 @@
 package com.qads.queensbarandcafe.helpers;
 
-import java.util.Map;
-
 public class OptionsModel {
 
-    Map<String, String> options;
+    public static final int NOT_MULTIPLE=0;
+    public static final int MULTIPLE=1;
 
-    public OptionsModel(Map<String, String> options) {
-        this.options = options;
+    public int type;
+    private Boolean mCanHaveMultiple;
+    private Integer mExtraPrice;
+    private String mOptionName;
+
+    public OptionsModel(Boolean mCanHaveMultiple, Integer mExtraPrice, String mOptionName) {
+        //this.type = type;
+        this.mCanHaveMultiple = mCanHaveMultiple;
+        this.mExtraPrice = mExtraPrice;
+        this.mOptionName = mOptionName;
     }
 
-    public Map<String, String> getOptions() {return options;}
+    public Boolean getmCanHaveMultiple() { return mCanHaveMultiple; }
 
-    public void setOptions(Map<String, String> interests) {
-        this.options = options;
-    }
+    public void setmCanHaveMultiple(Boolean mCanHaveMultiple) { this.mCanHaveMultiple = mCanHaveMultiple; }
 
+    public int getmExtraPrice() { return mExtraPrice; }
+
+    public void setmExtraPrice(Integer mExtraPrice) { this.mExtraPrice = mExtraPrice; }
+
+    public String getmOptionName() { return mOptionName; }
+
+    public void setmOptionName(String mOptionName) { this.mOptionName = mOptionName; }
 }
+
+
+
