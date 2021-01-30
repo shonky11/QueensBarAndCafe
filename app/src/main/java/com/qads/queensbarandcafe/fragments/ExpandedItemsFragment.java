@@ -58,7 +58,7 @@ public class ExpandedItemsFragment extends Fragment{
         ArrayList<OptionsModel> list= new ArrayList();
         id = bundle.getString("Current MenuItem"); //this is the id of the menuitem
 
-        Log.d("ID_MENUITEM: ", id);
+        Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
 
         itemRef = menuItemRef.document(id);
 

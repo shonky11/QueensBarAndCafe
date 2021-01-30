@@ -7,6 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.BaseRequestOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.qads.queensbarandcafe.R;
 
 import java.util.List;
@@ -44,9 +50,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Category category = mCategory.get(position);
         TextView textView = holder.categoryName;
-        textView.setText(category.getCategory());
+        textView.setText(category.getName());
         ImageView imageView = holder.categoryPic;
-        imageView.setImageResource(category.getImageRef());
+        BaseRequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+
+        FirebaseStorage eventStorage = FirebaseStorage.getInstance();
+        StorageReference eventStorageRef = eventStorage.getReference();
+        StorageReference eventPathReference = eventStorageRef.child("categories/" + category.getImage());
+        Glide.with(holder.itemView.getContext()).load(eventPathReference).apply(requestOptions).fitCenter().into(holder.categoryPic);
     }
 
     @Override

@@ -97,12 +97,15 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/items_rv"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,19 +1,34 @@
 package com.qads.queensbarandcafe.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.qads.queensbarandcafe.R;
 import com.qads.queensbarandcafe.helpers.Category;
 import com.qads.queensbarandcafe.helpers.CategoryAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +50,10 @@ public class CafeFragment extends Fragment {
     private RelativeLayout relativeLayout;
     private CardView loadedCardView, searchBar;
     private ImageView cartImageButton;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference categoryRef = db.collection("categories");
+    private List<Category> categoriesList = new ArrayList<>();
+    CategoryAdapter adapter = new CategoryAdapter(categoriesList);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,18 +67,21 @@ public class CafeFragment extends Fragment {
         rootView = inflater.inflate(R.layout.location_fragment, container, false);
 
         RecyclerView categoriesRecycler = (RecyclerView) rootView.findViewById(R.id.categories_rv);
+        TextView closed = (TextView) rootView.findViewById(R.id.closed);
+        categoriesList.clear();
+        createCategoriesList(closed);
 
-        categories = createCategoriesList();
-        CategoryAdapter adapter = new CategoryAdapter(categories);
+        adapter = new CategoryAdapter(categoriesList);
         categoriesRecycler.setAdapter(adapter);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.notifyDataSetChanged();
 
         setupCollapsingToolbar(rootView);
 
         adapter.setOnCategoryClickListener(new CategoryAdapter.OnCategoryClickListener() {
            @Override
            public void onCategoryClick(View v, int position) {
-               Category clickedCategory = (Category) categories.get(position);
+               Category clickedCategory = (Category) categoriesList.get(position);
                onCategoryClickeroo(v, clickedCategory);
            }
         });
@@ -90,28 +112,67 @@ public class CafeFragment extends Fragment {
         loadedToolbar = rootView.findViewById(R.id.final_toolbar);
     }
 
-    public static ArrayList<Category> createCategoriesList() {
-            ArrayList<Category> categories = new ArrayList<Category>();
+    public void createCategoriesList(final TextView closed) {
 
-            categories.add(new Category("Hot Drinks", R.drawable.coffee_template));
-            categories.add(new Category("Cold Drinks", R.drawable.cold_drinks_template));
-            categories.add(new Category("Snacks", R.drawable.snacks_template));
-            categories.add(new Category("Sandwiches and Pasties", R.drawable.sandwiches_paninis_template));
+        Query query = categoryRef.whereEqualTo("location", "Cafe").orderBy("name", Query.Direction.ASCENDING);
 
-            return categories;
+        query .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+                            final Category cardAdded = dc.getDocument().toObject(Category.class);
+                            categoriesList.add(cardAdded);
+                            adapter.notifyItemInserted(dc.getNewIndex());
+                            break;
+                        case MODIFIED:
+                            categoriesList.remove(dc.getOldIndex());
+                            adapter.notifyItemRemoved(dc.getOldIndex());
+                            final Category cardChanged = dc.getDocument().toObject(Category.class);
+                            categoriesList.add(dc.getNewIndex(), cardChanged);
+                            adapter.notifyItemInserted(dc.getNewIndex());
+                            break;
+                        case REMOVED:
+                            categoriesList.remove(dc.getOldIndex());
+                            adapter.notifyItemRemoved(dc.getOldIndex());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                if(categoriesList != null && categoriesList.size() != 0 && !categoriesList.get(0).getOpen()){
+                    closed.setText("Cafe Closed");
+                    closed.setVisibility(View.VISIBLE);
+                } else {
+                    closed.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     public void onCategoryClickeroo(View v, Category clickCat){
-
-        Fragment nextFragment = new ItemsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("Current Category", clickCat.getCategory());
-        bundle.putString("Current Location", "Cafe");
-        nextFragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, nextFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(clickCat.getOpen()) {
+            Fragment nextFragment = new ItemsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("Current Category", clickCat.getName());
+            bundle.putString("Current Location", "Cafe");
+            nextFragment.setArguments(bundle);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else {
+            Toast.makeText(getActivity(), "The cafe is currently closed", Toast.LENGTH_SHORT).show();
+        }
     }
 }

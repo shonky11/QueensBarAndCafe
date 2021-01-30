@@ -11,7 +11,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.qads.queensbarandcafe.fragments.BarFragment;
 import com.qads.queensbarandcafe.fragments.CafeFragment;
 
+import java.util.List;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
+    public static Map<String, Float> prices;
+    public static List<Object> itemsCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

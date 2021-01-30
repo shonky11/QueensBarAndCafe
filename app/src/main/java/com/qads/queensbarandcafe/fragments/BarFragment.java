@@ -6,14 +6,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.qads.queensbarandcafe.R;
 import com.qads.queensbarandcafe.helpers.Category;
 import com.qads.queensbarandcafe.helpers.CategoryAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +45,10 @@ public class BarFragment extends Fragment {
     private RelativeLayout relativeLayout;
     private CardView loadedCardView, searchBar;
     private ImageView cartImageButton;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference categoryRef = db.collection("categories");
+    private List<Category> categoriesList = new ArrayList<>();
+    private CategoryAdapter adapter = new CategoryAdapter(categoriesList);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,9 +62,10 @@ public class BarFragment extends Fragment {
         rootView = inflater.inflate(R.layout.location_fragment, container, false);
 
         RecyclerView categoriesRecycler = (RecyclerView) rootView.findViewById(R.id.categories_rv);
-
-        categories = createCategoriesList();
-        CategoryAdapter adapter = new CategoryAdapter(categories);
+        TextView closed = (TextView) rootView.findViewById(R.id.closed);
+        categoriesList.clear();
+        createCategoriesList(closed);
+        adapter = new CategoryAdapter(categoriesList);
         categoriesRecycler.setAdapter(adapter);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -59,7 +74,7 @@ public class BarFragment extends Fragment {
         adapter.setOnCategoryClickListener(new CategoryAdapter.OnCategoryClickListener() {
             @Override
             public void onCategoryClick(View v, int position) {
-                Category clickedCategory = (Category) categories.get(position);
+                Category clickedCategory = (Category) categoriesList.get(position);
                 onCategoryClickeroo(v, clickedCategory);
             }
         });
@@ -91,31 +106,67 @@ public class BarFragment extends Fragment {
 
     }
 
-    public static ArrayList<Category> createCategoriesList() {
-        ArrayList<Category> categories = new ArrayList<Category>();
+    public void createCategoriesList(final TextView closed) {
 
-        categories.add(new Category("Beers, Lagers and Ales", R.drawable.beer_template));
-        categories.add(new Category("Cocktails", R.drawable.cocktails_template));
-        categories.add(new Category("Spirits", R.drawable.spirits_template));
-        categories.add(new Category("Soft Drinks and Mocktails", R.drawable.cold_drinks_template));
-        categories.add(new Category("Food", R.drawable.food_template));
-        categories.add(new Category("Snacks", R.drawable.snacks_template));
+        Query query = categoryRef.whereEqualTo("location", "Bar").orderBy("name", Query.Direction.ASCENDING);
 
-        return categories;
+        query .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+                            final Category cardAdded = dc.getDocument().toObject(Category.class);
+                            categoriesList.add(cardAdded);
+                            adapter.notifyItemInserted(dc.getNewIndex());
+                            break;
+                        case MODIFIED:
+                            categoriesList.remove(dc.getOldIndex());
+                            adapter.notifyItemRemoved(dc.getOldIndex());
+                            final Category cardChanged = dc.getDocument().toObject(Category.class);
+                            categoriesList.add(dc.getNewIndex(), cardChanged);
+                            adapter.notifyItemInserted(dc.getNewIndex());
+                            break;
+                        case REMOVED:
+                            categoriesList.remove(dc.getOldIndex());
+                            adapter.notifyItemRemoved(dc.getOldIndex());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                if(categoriesList != null && categoriesList.size() != 0 && !categoriesList.get(0).getOpen()){
+                    closed.setText("Bar Closed");
+                    closed.setVisibility(View.VISIBLE);
+                } else {
+                    closed.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void onCategoryClickeroo(View v, Category clickCat){
-
-        Fragment nextFragment = new ItemsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("Current Category", clickCat.getCategory());
-        bundle.putString("Current Location", "Bar");
-        nextFragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, nextFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(clickCat.getOpen()) {
+            Fragment nextFragment = new ItemsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("Current Category", clickCat.getName());
+            bundle.putString("Current Location", "Bar");
+            nextFragment.setArguments(bundle);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else {
+            Toast.makeText(getActivity(), "The QBar is currently closed", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

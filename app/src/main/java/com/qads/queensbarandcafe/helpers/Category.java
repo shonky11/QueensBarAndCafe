@@ -3,31 +3,50 @@ package com.qads.queensbarandcafe.helpers;
 public class Category {
 
     public String category;
-    public int imageRef;
+    public String imageRef;
+    public String location;
+    public Boolean open;
 
     public Category(){
-
     }
 
-    public Category (String category, int imageRef){
+    public Category (String category, String imageRef, String location, Boolean open){
         this.category = category;
         this.imageRef = imageRef;
+        this.location = location;
+        this.open = open;
     }
 
-    public String getCategory(){
+    public String getName(){
         return category;
     }
 
-    public void setCategory(String mCategory){
+    public void setName(String mCategory){
         this.category = mCategory;
     }
 
-    public int getImageRef(){
+    public String getImage(){
         return imageRef;
     }
 
-    public void setImageRef(int mImageRef){
+    public void setImage(String mImageRef){
         this.imageRef = mImageRef;
+    }
+
+    public String getLocation(){
+        return imageRef;
+    }
+
+    public void setLocation(String mLocation){
+        this.location = mLocation;
+    }
+
+    public Boolean getOpen(){
+        return open;
+    }
+
+    public void setOpen(Boolean mOpen){
+        this.open = mOpen;
     }
 }
 
