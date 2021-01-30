@@ -110,7 +110,7 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((NotMultipleViewHolder) holder).optionsName.setText(object.getmOptionName());
             } else if (object.getmCanHaveMultiple().equals("true")) {
                 ((MultipleViewHolder) holder).optionsName.setText(object.getmOptionName());
-                ((MultipleViewHolder) holder).optionsPrice.setText(object.getmExtraPrice());
+                ((MultipleViewHolder) holder).optionsPrice.setText((int) object.getmExtraPrice());
             }
 
         }
