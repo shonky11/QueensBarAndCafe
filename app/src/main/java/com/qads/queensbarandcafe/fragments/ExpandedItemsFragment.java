@@ -55,37 +55,45 @@ public class ExpandedItemsFragment extends Fragment{
         rootView = inflater.inflate(R.layout.expanded_items_fragment, container, false);
         Bundle bundle = this.getArguments();
 
-        ArrayList<OptionsModel> list= new ArrayList();
+        final ArrayList<OptionsModel> list= new ArrayList(); //input all the lists of dictionaries
         id = bundle.getString("Current MenuItem"); //this is the id of the menuitem
 
-        Log.d("ID_MENUITEM: ", id);
+
 
         itemRef = menuItemRef.document(id);
 
-        /*itemRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        itemRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
-                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (value != null && value.exists()) {
                     menuItem = value.toObject(MenuItem.class);
-                    String name = (String) menuItem.getOptionsList().get(0).get("name");
+                    Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < 2; i++){
+                        Boolean can_have_multiple = (Boolean) menuItem.getOptionsList().get(i).get("can_have_multiple");
+                        Long extra_price = (Long) menuItem.getOptionsList().get(i).get("extra_price");
+                        String name = (String) menuItem.getOptionsList().get(i).get("name");
+
+                        list.add(new OptionsModel(can_have_multiple, extra_price, name));
+
+                        /*Log.d("CANHAVEMULTIPLE", can_have_multiple.toString());
+                        Log.d("EXTRAPRICE", extra_price.toString());
+                        Log.d("NAME", name);*/
+
+                    }
+
+                    //Toast.makeText(getContext(), name.toString(), Toast.LENGTH_SHORT).show();
                     //MenuItem clicked = (MenuItem) adapter.getItem(0); //e.g whole latte documentå
                     //Toast.makeText(getContext(), "Position: " + 0 + " ID: " + clicked.getOptionsList().get(0).get("can_have_multiple"), Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
-
-
-        //list.add(new OptionsModel(canHaveMultiple,extraPrice,optionName));
-
-
+        });
 
         OptionsAdapter adapter = new OptionsAdapter(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -93,7 +101,11 @@ public class ExpandedItemsFragment extends Fragment{
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.options_recyclerView);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(OptionsAdapter);
+        mRecyclerView.setAdapter(adapter);
+
+        Log.d("LIST", list.toString()); //LIST IS EMPTY
+
+        //list.add(new OptionsModel(canHaveMultiple,extraPrice,optionName));
         return rootView;
     }
 

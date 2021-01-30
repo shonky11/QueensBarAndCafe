@@ -7,10 +7,10 @@ public class OptionsModel {
 
     public int type;
     private Boolean mCanHaveMultiple;
-    private Integer mExtraPrice;
+    private Long mExtraPrice;
     private String mOptionName;
 
-    public OptionsModel(Boolean mCanHaveMultiple, Integer mExtraPrice, String mOptionName) {
+    public OptionsModel(Boolean mCanHaveMultiple, Long mExtraPrice, String mOptionName) {
         //this.type = type;
         this.mCanHaveMultiple = mCanHaveMultiple;
         this.mExtraPrice = mExtraPrice;
@@ -21,9 +21,9 @@ public class OptionsModel {
 
     public void setmCanHaveMultiple(Boolean mCanHaveMultiple) { this.mCanHaveMultiple = mCanHaveMultiple; }
 
-    public int getmExtraPrice() { return mExtraPrice; }
+    public long getmExtraPrice() { return mExtraPrice; }
 
-    public void setmExtraPrice(Integer mExtraPrice) { this.mExtraPrice = mExtraPrice; }
+    public void setmExtraPrice(Long mExtraPrice) { this.mExtraPrice = mExtraPrice; }
 
     public String getmOptionName() { return mOptionName; }
 

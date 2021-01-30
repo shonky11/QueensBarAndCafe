@@ -74,7 +74,7 @@ public class ItemsFragment extends Fragment {
 
     public void onCategoryClickmeister(String id){
 
-        Fragment nextFragment = new ItemsFragment(); //change this to expanded fragment name
+        Fragment nextFragment = new ExpandedItemsFragment(); //change this to expanded fragment name
         Bundle bundle = new Bundle();
         bundle.putString("Current MenuItem", id); //the key is the "Current MenuItem
         nextFragment.setArguments(bundle);
