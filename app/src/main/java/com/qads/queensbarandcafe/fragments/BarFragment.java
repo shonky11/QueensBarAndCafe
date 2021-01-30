@@ -116,5 +116,6 @@ public class BarFragment extends Fragment {
         fragmentTransaction.replace(R.id.fragment_container, nextFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
     }
 }

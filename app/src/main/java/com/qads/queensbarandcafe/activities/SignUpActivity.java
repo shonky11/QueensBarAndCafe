@@ -179,12 +179,14 @@ public class SignUpActivity extends AppCompatActivity {
                                     if (task1.isSuccessful()) {
                                         DocumentSnapshot document = task1.getResult();
                                         Log.d(TAG, "Document exists!");
-                                        FirebaseMessaging.getInstance().subscribeToTopic(Objects.requireNonNull(mFirebaseAuth.getUid()))
+                                        FirebaseMessaging.getInstance().subscribeToTopic(Objects.requireNonNull(mFirebaseAuth.getCurrentUser().getEmail().split("@")[0]))
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (!task.isSuccessful()) {
                                                                 Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                                                            }else{
+                                                                Toast.makeText(getApplicationContext(), "subscribed to" + mFirebaseAuth.getCurrentUser().getEmail().split("@")[0], Toast.LENGTH_SHORT).show();
                                                             }
 
                                                         }
