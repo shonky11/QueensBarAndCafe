@@ -45,7 +45,7 @@ public class MenuItem {
     public List<Map<String, Object>> getOptionsList(){
         for(String opt : mOptionsTemp.keySet()){
             mOptions.add(mOptionsTemp.get(opt));
-        }
+        } //use this to get the options -- iterates over the key set -
         return (mOptions);
     }
     public List<String> getSize(){return mSize;}
