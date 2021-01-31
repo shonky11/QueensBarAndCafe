@@ -10,6 +10,7 @@ import com.qads.queensbarandcafe.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.qads.queensbarandcafe.fragments.BarFragment;
 import com.qads.queensbarandcafe.fragments.CafeFragment;
+import com.qads.queensbarandcafe.fragments.CartFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CafeFragment()).commit();
         
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.notifications:
+                Fragment notifications = new CartFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, notifications).addToBackStack(null).commit();
+                return true;
+            default:
+                return false;
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavListener =

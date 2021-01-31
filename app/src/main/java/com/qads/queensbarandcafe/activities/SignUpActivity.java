@@ -191,7 +191,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                                         }
                                                 });
-                                        User users = new User("", mFirebaseAuth.getUid());
+                                        User users = new User("", mFirebaseAuth.getUid(), "", "", "");
                                         docIdRef.set(users)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
@@ -205,7 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                         Log.w(TAG, "Error adding document", e);
                                                     }
                                                 });
-                                        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                        startActivity(new Intent(SignUpActivity.this, LoginActivity .class));
 
                                         finish();
                                     } else {
