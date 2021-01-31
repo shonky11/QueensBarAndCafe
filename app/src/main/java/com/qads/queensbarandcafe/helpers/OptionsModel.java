@@ -37,7 +37,7 @@ public class OptionsModel {
 
     public Number getmTruePrice() { return mTruePrice; }
 
-    public void setmTruePrice(int mTruePrice) { this.mTruePrice = mTruePrice; }
+    public void setmTruePrice(Number mTruePrice) { this.mTruePrice = mTruePrice; }
 }
 
 

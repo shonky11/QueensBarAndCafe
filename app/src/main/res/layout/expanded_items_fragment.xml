@@ -113,10 +113,9 @@
                 <ImageView
                     android:id="@+id/expandedPic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/coffee_template"/>
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/ex_event_name_text_view"
@@ -185,7 +184,8 @@
                     android:id="@+id/options_recyclerView"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:divider="@null"/>
 
 
                 <LinearLayout

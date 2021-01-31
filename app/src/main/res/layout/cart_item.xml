@@ -6,14 +6,13 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/rel2"
+        android:id="@+id/rel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginTop="4dp">
 
         <TextView
-            android:id="@+id/TxtView_item1"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -24,32 +23,44 @@
             android:text="Coffee_Item" />
 
         <TextView
-            android:id="@+id/TxtView_item2"
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TxtView_item1"
+            android:layout_below="@+id/name"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:layout_marginLeft="16dp"
-            android:lines="2"
-            android:text="description"/>
+            android:layout_marginTop="4dp"
+            android:textSize="16dp"
+            android:text="No Options"/>
 
         <TextView
-            android:id="@+id/PriceTxt"
+            android:id="@+id/price"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/delete"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:layout_alignParentRight="true"
-            android:textStyle="bold"
             android:layout_marginRight="16dp"
             android:text="priceInWords" />
-        />
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="30dp"
+            android:layout_centerVertical="true"
+            android:layout_height="30dp"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete_forever_black_24dp"
+            />
     </RelativeLayout>
 
     <View
-        android:id="@+id/divider3"
-        android:layout_below="@id/rel2"
+        android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginLeft="16dp"
+        android:layout_below="@+id/rel"
         android:layout_marginRight="16dp"
         android:background="@color/colorPrimary" />
+
 </RelativeLayout>

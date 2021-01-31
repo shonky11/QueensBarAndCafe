@@ -58,7 +58,6 @@ public class ItemsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         adapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override

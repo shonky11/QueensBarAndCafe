@@ -18,11 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -33,7 +36,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.qads.queensbarandcafe.R;
+import com.qads.queensbarandcafe.activities.MainActivity;
 import com.qads.queensbarandcafe.helpers.Category;
 import com.qads.queensbarandcafe.helpers.CategoryAdapter;
 import com.qads.queensbarandcafe.helpers.MenuItem;
@@ -42,6 +48,7 @@ import com.qads.queensbarandcafe.helpers.OptionsAdapter;
 import com.qads.queensbarandcafe.helpers.OptionsModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ExpandedItemsFragment extends Fragment{
@@ -59,7 +66,14 @@ public class ExpandedItemsFragment extends Fragment{
     private Double itemPriceFinal = 0.00;
     private int itemQuantity = 1;
     private TextView itemQuantDisp;
-    private ImageView itemInc, itemDec;
+    private ImageView itemInc, itemDec, bigpic;
+    private Map<String, Object> outputMap = new HashMap<>();
+    private Map<String, Object> outputOptions = new HashMap<>();
+    private Map<String, Object> outputPrices = new HashMap<>();
+    private String outputID;
+    private String outputName;
+    private String outputLocation;
+    private Double totalPrice = 0.00;
 
     @Nullable
     @Override
@@ -80,6 +94,7 @@ public class ExpandedItemsFragment extends Fragment{
         itemQuantDisp = rootView.findViewById(R.id.itemQuantity);
         itemInc = rootView.findViewById(R.id.item_plus);
         itemDec = rootView.findViewById(R.id.item_minus);
+        bigpic = rootView.findViewById(R.id.expandedPic);
 
         adapter.setOnPlusClickListener(new OptionsAdapter.OnPlusClickListener() {
             @Override
@@ -108,7 +123,42 @@ public class ExpandedItemsFragment extends Fragment{
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                outputID = id;
+                int iter2 = list.size();
+                for (int i = 0; i < iter2; i++) {
+                    Map<String, Object> tempMap = new HashMap<>();
+                    tempMap.put("name", list.get(i).getmOptionName());
+                    tempMap.put("quantity", list.get(i).getmQuantity());
+                    outputOptions.put(list.get(i).getmOptionName(), tempMap);
+                }
+                outputMap.put("id", outputID);
+                outputMap.put("name", outputName);
+                outputMap.put("options", outputOptions);
+                outputPrices.put(outputName, totalPrice);
 
+                if (outputLocation.equals("Cafe")) {
+                    for (int j = 0; j < itemQuantity; j++) {
+                        MainActivity.cafeCart.add(outputMap);
+                        MainActivity.cafePrices.add(outputPrices);
+                    }
+                }
+
+                if (outputLocation.equals("Bar")) {
+                    for (int j = 0; j < itemQuantity; j++) {
+                        MainActivity.barCart.add(outputMap);
+                        MainActivity.barPrices.add(outputPrices);
+                    }
+                }
+
+                Fragment nextFragment = new CartFragment(); //change this to expanded fragment name
+                Bundle bundle = new Bundle();
+                bundle.putString("Current MenuItem", id); //the key is the "Current MenuItem
+                nextFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -143,9 +193,16 @@ public class ExpandedItemsFragment extends Fragment{
                         list.clear();;
                         MenuItem menuItem = document.toObject(MenuItem.class);
                         itemPriceFinal = menuItem.getPrice();
+                        outputName = menuItem.getName();
+                        outputLocation = menuItem.getLocation();
                         buttonSetter();
                         itemName.setText(menuItem.getName());
                         itemDesc.setText(menuItem.getDescription());
+
+                        FirebaseStorage eventStorage = FirebaseStorage.getInstance();
+                        StorageReference eventStorageRef = eventStorage.getReference();
+                        StorageReference eventPathReference = eventStorageRef.child("menuitems/" + menuItem.getName() + ".jpg");
+                        Glide.with(getContext()).load(eventPathReference).fitCenter().into(bigpic);
 
                         int iterator = menuItem.getOptionsList().size();
 
@@ -178,9 +235,9 @@ public class ExpandedItemsFragment extends Fragment{
         if(list.get(position).getmQuantity() < 10) {
             list.get(position).setmQuantity(list.get(position).getmQuantity() + 1);
             int currentQuant = list.get(position).getmQuantity();
-            double itemPrice = list.get(position).getmExtraPrice().doubleValue()/100;
+            double itemPrice = list.get(position).getmExtraPrice().doubleValue();
             double total = itemPrice * currentQuant;
-            list.get(position).setmTruePrice(currentQuant);
+            list.get(position).setmTruePrice(total);
             adapter.notifyItemChanged(position);
             buttonSetter();
         } else {
@@ -192,9 +249,9 @@ public class ExpandedItemsFragment extends Fragment{
         if(list.get(position).getmQuantity() > 0) {
             list.get(position).setmQuantity(list.get(position).getmQuantity() - 1);
             int currentQuant = list.get(position).getmQuantity();
-            double itemPrice = list.get(position).getmExtraPrice().doubleValue()/100;
+            double itemPrice = list.get(position).getmExtraPrice().doubleValue();
             double total = itemPrice * currentQuant;
-            list.get(position).setmTruePrice(currentQuant);
+            list.get(position).setmTruePrice(total);
             adapter.notifyItemChanged(position);
             buttonSetter();
         }
@@ -204,17 +261,17 @@ public class ExpandedItemsFragment extends Fragment{
         if(list.get(position).getmQuantity() > 0) {
             list.get(position).setmQuantity(0);
             int currentQuant = list.get(position).getmQuantity();
-            double itemPrice = list.get(position).getmExtraPrice().doubleValue()/100;
+            double itemPrice = list.get(position).getmExtraPrice().doubleValue();
             double total = itemPrice * currentQuant;
-            list.get(position).setmTruePrice(currentQuant);
+            list.get(position).setmTruePrice(total);
             adapter.notifyItemChanged(position);
             buttonSetter();
         } else {
             list.get(position).setmQuantity(1);
             int currentQuant = list.get(position).getmQuantity();
-            double itemPrice = list.get(position).getmExtraPrice().doubleValue()/100;
+            double itemPrice = list.get(position).getmExtraPrice().doubleValue();
             double total = itemPrice * currentQuant;
-            list.get(position).setmTruePrice(currentQuant);
+            list.get(position).setmTruePrice(total);
             adapter.notifyItemChanged(position);
             buttonSetter();
         }
@@ -228,9 +285,10 @@ public class ExpandedItemsFragment extends Fragment{
         }
         Integer itemQuantitee = itemQuantity;
         itemQuantDisp.setText(itemQuantitee.toString());
-        Double totalPrice = (itemPriceFinal + optionsTotal) * itemQuantity;
-        String priceString = String.format("%.2f", totalPrice);
-        String pricePounds= "ADD TO CART       " + "£" + priceString;
+        totalPrice = itemPriceFinal + optionsTotal;
+        Double totalAdded = totalPrice * itemQuantity;
+        String priceString = String.format("%.2f", totalAdded);
+        String pricePounds= "ADD TO CART:       " + "+£" + priceString;
 
         cartButton.setText(pricePounds);
     }

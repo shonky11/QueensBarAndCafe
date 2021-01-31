@@ -30,7 +30,7 @@ public class MenuItemAdapter extends FirestoreRecyclerAdapter<MenuItem, MenuItem
     protected void onBindViewHolder(@NonNull MenuItemHolder holder, int position, @NonNull MenuItem model) {
         holder.itemDescription.setText(model.getDescription());
         holder.itemName.setText(model.getName());
-        holder.price.setText("$" + model.getPrice().toString());
+        holder.price.setText("£" + model.getPrice().toString());
 
     }
 

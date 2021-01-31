@@ -11,12 +11,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.qads.queensbarandcafe.fragments.BarFragment;
 import com.qads.queensbarandcafe.fragments.CafeFragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    public static Map<String, Float> prices;
-    public static List<Object> itemsCart;
+    public static List<Object> cafePrices = new ArrayList<>();
+    public static List<Object> cafeCart = new ArrayList<>();
+    public static List<Object> barPrices = new ArrayList<>();
+    public static List<Object> barCart = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
