@@ -9,4 +9,6 @@
     <color name="queenscolor">#4CAF50</color>
     <color name="cards">#FFFFFF</color>
     <color name="scroll">#BABABA</color>
+    <color name="edit_text_box">#F4F2F2</color>
+    <color name="edit_text_box_border">#E1E1E1</color>
 </resources>
