@@ -43,6 +43,7 @@ public class MenuItem {
     public boolean getStock(){return mStock;}
     public Map<String, Map<String, Object>> getOptions(){return mOptionsTemp;}
     public List<Map<String, Object>> getOptionsList(){
+        mOptions.clear();
         for(String opt : mOptionsTemp.keySet()){
             mOptions.add(mOptionsTemp.get(opt));
         } //use this to get the options -- iterates over the key set -
