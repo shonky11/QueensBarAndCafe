@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -24,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class ItemsFragment extends Fragment {
     private View rootView;
@@ -32,6 +35,7 @@ public class ItemsFragment extends Fragment {
     private MenuItemAdapter adapter;
     private String category;
     private String location;
+    private SwipeRefreshLayout swipeContainer;
 
     @Nullable
     @Override
@@ -39,16 +43,40 @@ public class ItemsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         rootView = inflater.inflate(R.layout.items_fragment, container, false);
+        TextView title = rootView.findViewById(R.id.final_app_bar);
+        Button backbutton = rootView.findViewById(R.id.back);
         category = bundle.getString("Current Category");
         location = bundle.getString("Current Location");
+        title.setText(category);
         setUpRecyclerView();
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                assert fragmentManager != null;
+                fragmentManager.popBackStack(null, 0);
+            }
+        });
+
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
         return rootView;
 
     }
 
+
+
     private void setUpRecyclerView() {
 
-        Query query = menuItemRef.whereEqualTo("location", location).whereEqualTo("category", category).whereEqualTo("stock", true).orderBy("name", Query.Direction.ASCENDING);
+        Query query = menuItemRef.whereEqualTo("location", location).whereEqualTo("category", category).orderBy("name", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<MenuItem> options = new FirestoreRecyclerOptions.Builder<MenuItem>()
                 .setQuery(query, MenuItem.class).build();
@@ -63,8 +91,12 @@ public class ItemsFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String id = documentSnapshot.getId();
-                onCategoryClickmeister(id);
                 MenuItem clicked = (MenuItem) adapter.getItem(position); //e.g whole latte documentå
+                if(!clicked.getStock()){
+                    Toast.makeText(getActivity(), "This item is out of stock", Toast.LENGTH_SHORT).show();
+                } else {
+                    onCategoryClickmeister(id);
+                }
                 //Toast.makeText(getContext(), "Position: " + position + " ID: " + clicked.getOptionsList().get(1).get("name"), Toast.LENGTH_SHORT).show();
             }
         });

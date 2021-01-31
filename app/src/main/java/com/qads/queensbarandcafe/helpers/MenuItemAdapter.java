@@ -32,6 +32,14 @@ public class MenuItemAdapter extends FirestoreRecyclerAdapter<MenuItem, MenuItem
         holder.itemName.setText(model.getName());
         holder.price.setText("£" + model.getPrice().toString());
 
+        if(!model.getStock()){
+            holder.stock.setVisibility(View.VISIBLE);
+            holder.itemDescription.setVisibility(View.GONE);
+        } else {
+            holder.stock.setVisibility(View.GONE);
+            holder.itemDescription.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @NonNull
@@ -43,13 +51,15 @@ public class MenuItemAdapter extends FirestoreRecyclerAdapter<MenuItem, MenuItem
     }
 
     class MenuItemHolder extends RecyclerView.ViewHolder {
-        TextView itemName, itemDescription, price;
+        TextView itemName, itemDescription, price, stock;
 
         public MenuItemHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.TxtView_item1);
             itemDescription = itemView.findViewById(R.id.TxtView_item2);
             price = itemView.findViewById(R.id.PriceTxt);
+            stock = itemView.findViewById(R.id.OutofStock);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

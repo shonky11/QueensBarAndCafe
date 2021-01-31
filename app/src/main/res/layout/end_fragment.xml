@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryLight">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:background="@color/colorPrimaryLight">
+
+        <ImageView
+            android:layout_marginTop="150dp"
+            android:id="@+id/splash"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/qbar"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/prep"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="25dp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/splash"
+            android:textAlignment="center"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:text="Your order is being prepared..."/>
+
+        <TextView
+            android:id="@+id/prep2"
+            android:layout_below="@+id/prep"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif"
+            android:text="You will recieve a notification when your order is ready to collect from the QBar."/>
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/prep2"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Done"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textSize="10dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:textStyle="normal"
+        android:fontFamily="sans-serif"
+        android:text="If you do not recieve a notification in the next 10 minutes please go to the QBar"/>
+
+
+
+</LinearLayout>

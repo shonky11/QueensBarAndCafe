@@ -105,144 +105,149 @@
             android:background="@color/cards"
             android:clickable="true">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/expandedPic"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop" />
-
-                <TextView
-                    android:id="@+id/ex_event_name_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="30sp"
-                    android:text="Fleek Fridays" />
-
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@color/colorPrimary" />
-
-                <TextView
-                    android:autoLink="web"
-                    android:id="@+id/ex_event_description_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum elit lacus, sed blandit nisl bibendum et. Maecenas vel massa suscipit, scelerisque neque varius, tempus augue. Pellentesque habitant "/>
-
-                <TextView
-                    android:id="@+id/ex_event_details_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Customizations:"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="normal" />
-
-                <View
-                    android:id="@+id/divider3"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@color/colorPrimary" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/options_recyclerView"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@null"/>
-
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="32dp">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/item_minus"
-                        android:layout_width="35dp"
-                        android:layout_gravity="center"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_remove_circle_outline_black_24dp"/>
+                        android:id="@+id/expandedPic"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop" />
 
                     <TextView
-                        android:id="@+id/itemQuantity"
+                        android:id="@+id/ex_event_name_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="30sp"
+                        android:text="Fleek Fridays" />
+
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:background="@color/colorPrimary" />
+
+                    <TextView
+                        android:autoLink="web"
+                        android:id="@+id/ex_event_description_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum elit lacus, sed blandit nisl bibendum et. Maecenas vel massa suscipit, scelerisque neque varius, tempus augue. Pellentesque habitant "/>
+
+                    <TextView
+                        android:id="@+id/ex_event_details_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Customizations:"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="normal" />
+
+                    <View
+                        android:id="@+id/divider3"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:background="@color/colorPrimary" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/options_recyclerView"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"/>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="32dp">
+
+
+                        <ImageView
+                            android:id="@+id/item_minus"
+                            android:layout_width="35dp"
+                            android:layout_gravity="center"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_remove_circle_outline_black_24dp"/>
+
+                        <TextView
+                            android:id="@+id/itemQuantity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:text="1"
+                            android:textSize="25dp"
+                            android:textColor="#000000"
+                            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                            android:layout_gravity="center"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/item_plus"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_add_circle_outline_black_24dp" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/add_to_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:text="1"
-                        android:textSize="25dp"
-                        android:textColor="#000000"
-                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                        android:layout_gravity="center"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/item_plus"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add_circle_outline_black_24dp" />
+                        android:background="@drawable/rounded_button"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Add to Cart"
+                        android:textColor="#ffffff" />
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/add_to_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Add to Cart"
-                    android:textColor="#ffffff" />
-
-            </LinearLayout>
+            </RelativeLayout>
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

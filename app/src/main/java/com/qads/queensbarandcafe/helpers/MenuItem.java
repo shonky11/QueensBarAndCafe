@@ -54,7 +54,7 @@ public class MenuItem {
     public void setName(String productName) { this.mName = productName; }
     public void setDescription(String productDescription) { this.mDescription = productDescription; }
     public void setPrice(Double productPrice) { this.mPrice = productPrice; }
-    public void setInStock(boolean productInStock) { this.mStock = productInStock; }
+    public void setStock(boolean productInStock) { this.mStock = productInStock; }
     public void setLocation(String productLocation) { this.mLocation = productLocation; }
     public void setOptions(Map<String, Map<String, Object>> optionsTemp) { this.mOptionsTemp = optionsTemp; }
     public void setSize(List<String> size) { this.mSize = size; }

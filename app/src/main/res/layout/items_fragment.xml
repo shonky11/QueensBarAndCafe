@@ -51,15 +51,16 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/navAndActionBar">
 
-                        <ImageView
+                        <TextView
                             android:id="@+id/final_app_bar"
                             android:layout_width="wrap_content"
                             android:layout_height="?attr/actionBarSize"
-                            android:src="@drawable/queens_college_arms_without_crest"
-                            app:layout_collapseMode="parallax"
-                            android:layout_gravity="center_horizontal"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
+                            android:text = "Cafe"
+                            android:textColor="#FFFFFF"
+                            android:textSize="24dp"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+
                             />
 
                         <ImageView
@@ -109,4 +110,24 @@
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="right">
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:layout_below="@+id/prep2"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Back"
+        android:textColor="#ffffff" />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

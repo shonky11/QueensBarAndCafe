@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -74,6 +75,7 @@ public class ExpandedItemsFragment extends Fragment{
     private String outputName;
     private String outputLocation;
     private Double totalPrice = 0.00;
+    private SwipeRefreshLayout swipeContainer;
 
     @Nullable
     @Override
@@ -159,6 +161,10 @@ public class ExpandedItemsFragment extends Fragment{
                 fragmentTransaction.replace(R.id.fragment_container, nextFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
+               /* FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                assert fragmentManager != null;
+                fragmentManager.popBackStack(null, 0);*/
             }
         });
 
@@ -227,6 +233,15 @@ public class ExpandedItemsFragment extends Fragment{
         });
 
         buttonSetter();
+
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeContainer.setRefreshing(false);
+            }
+        });
 
         return rootView;
     }

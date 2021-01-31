@@ -24,6 +24,8 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -143,6 +145,26 @@ public class CartFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
         totalCalc();
+
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.barPrices.clear();
+                MainActivity.barCart.clear();
+                MainActivity.cafePrices.clear();
+                MainActivity.cafeCart.clear();
+                Fragment nextFragment = new EndFragment(); //change this to expanded fragment name
+                Bundle bundle = new Bundle();
+                nextFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+                for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                    fragmentManager.popBackStack();
+                }
+                fragmentTransaction.commit();
+            }
+        });
 
         return(rootView);
     }

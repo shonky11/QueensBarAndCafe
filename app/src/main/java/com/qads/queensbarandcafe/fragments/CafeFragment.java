@@ -39,6 +39,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CafeFragment extends Fragment {
 
@@ -54,6 +55,7 @@ public class CafeFragment extends Fragment {
     private CollectionReference categoryRef = db.collection("categories");
     private List<Category> categoriesList = new ArrayList<>();
     CategoryAdapter adapter = new CategoryAdapter(categoriesList);
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +96,15 @@ public class CafeFragment extends Fragment {
             }
         });
 
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
         return rootView;
     }
 
@@ -116,7 +127,7 @@ public class CafeFragment extends Fragment {
 
         Query query = categoryRef.whereEqualTo("location", "Cafe").orderBy("name", Query.Direction.ASCENDING);
 
-        query .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
                                 @Nullable FirebaseFirestoreException error) {

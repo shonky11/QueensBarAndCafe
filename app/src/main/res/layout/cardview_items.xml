@@ -9,8 +9,8 @@
         android:id="@+id/rel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/TxtView_item1"
@@ -19,9 +19,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="16dp"
-            android:textStyle="bold"
+            android:text="Coffee_Item"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:text="Coffee_Item" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/TxtView_item2"
@@ -30,18 +30,32 @@
             android:layout_below="@+id/TxtView_item1"
             android:layout_marginLeft="16dp"
             android:lines="2"
-            android:text="description"/>
+            android:text="description" />
 
         <TextView
             android:id="@+id/PriceTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:layout_alignParentRight="true"
-            android:textStyle="bold"
             android:layout_marginRight="16dp"
-            android:text="priceInWords" />
-        />
+            android:text="priceInWords"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/OutofStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Out of Stock"
+            android:textColor="#FF3B3B"
+            android:layout_below="@+id/PriceTxt"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
     </RelativeLayout>
 
     <View
