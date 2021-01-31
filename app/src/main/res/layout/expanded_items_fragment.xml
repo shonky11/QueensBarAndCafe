@@ -153,7 +153,8 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
                     android:fontFamily="sans-serif-light"
-                    android:gravity="top"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum elit lacus, sed blandit nisl bibendum et. Maecenas vel massa suscipit, scelerisque neque varius, tempus augue. Pellentesque habitant "/>
@@ -175,7 +176,6 @@
                     android:id="@+id/divider3"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
@@ -186,6 +186,45 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="32dp">
+
+
+                    <ImageView
+                        android:id="@+id/item_minus"
+                        android:layout_width="35dp"
+                        android:layout_gravity="center"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_remove_circle_outline_black_24dp"/>
+
+                    <TextView
+                        android:id="@+id/itemQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="1"
+                        android:textSize="25dp"
+                        android:textColor="#000000"
+                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                        android:layout_gravity="center"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/item_plus"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add_circle_outline_black_24dp" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/add_to_cart"

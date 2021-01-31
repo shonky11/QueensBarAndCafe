@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,9 @@ public class ExpandedItemsFragment extends Fragment{
     private TextView itemName, itemDesc;
     private Button cartButton;
     private Double itemPriceFinal = 0.00;
+    private int itemQuantity = 1;
+    private TextView itemQuantDisp;
+    private ImageView itemInc, itemDec;
 
     @Nullable
     @Override
@@ -73,6 +77,9 @@ public class ExpandedItemsFragment extends Fragment{
         mRecyclerView.setAdapter(adapter);
         itemName = rootView.findViewById(R.id.ex_event_name_text_view);
         itemDesc = rootView.findViewById(R.id.ex_event_description_text_view);
+        itemQuantDisp = rootView.findViewById(R.id.itemQuantity);
+        itemInc = rootView.findViewById(R.id.item_plus);
+        itemDec = rootView.findViewById(R.id.item_minus);
 
         adapter.setOnPlusClickListener(new OptionsAdapter.OnPlusClickListener() {
             @Override
@@ -102,6 +109,28 @@ public class ExpandedItemsFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        itemInc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(itemQuantity < 10) {
+                    itemQuantity += 1;
+                    buttonSetter();
+                } else {
+                    Toast.makeText(getContext(), "Maximum reached", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        itemDec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(itemQuantity > 1) {
+                    itemQuantity -= 1;
+                    buttonSetter();
+                }
             }
         });
 
@@ -197,8 +226,9 @@ public class ExpandedItemsFragment extends Fragment{
         for(OptionsModel optionTemp : list){
             optionsTotal = optionsTotal + optionTemp.getmTruePrice().doubleValue()/100;
         }
-
-        Double totalPrice = itemPriceFinal + optionsTotal;
+        Integer itemQuantitee = itemQuantity;
+        itemQuantDisp.setText(itemQuantitee.toString());
+        Double totalPrice = (itemPriceFinal + optionsTotal) * itemQuantity;
         String priceString = String.format("%.2f", totalPrice);
         String pricePounds= "ADD TO CART       " + "£" + priceString;
 
