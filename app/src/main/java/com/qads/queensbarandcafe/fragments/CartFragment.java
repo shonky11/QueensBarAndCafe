@@ -1,20 +1,33 @@
 package com.qads.queensbarandcafe.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.qads.queensbarandcafe.R;
 import com.qads.queensbarandcafe.activities.MainActivity;
 import com.qads.queensbarandcafe.helpers.CartAdapter;
 import com.qads.queensbarandcafe.helpers.CartItem;
 import com.qads.queensbarandcafe.helpers.OptionsAdapter;
 import com.qads.queensbarandcafe.helpers.OptionsModel;
+import com.qads.queensbarandcafe.helpers.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +46,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CartFragment extends Fragment {
     private View rootView;
     private List<Object> tempCafeCartList = new ArrayList<>();
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseFirestore db;
     private List<Object> tempBarCartList = new ArrayList<>();
     private List<Object> tempCafePriceList = new ArrayList<>();
     private List<Object> tempBarPriceList = new ArrayList<>();
@@ -40,25 +55,48 @@ public class CartFragment extends Fragment {
     private CartAdapter adapter = new CartAdapter(list);
     private Double cafeCartTotal = 0.00;
     private Double barCartTotal = 0.00;
+    private ImageView cartImageButton;
     private Button order;
+    private User user = new User();
+    private String outputEmail = "";
+    private String outputName = "";
+    private String outputCrsid = "";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cart_fragment, container, false);
-        TextView name = rootView.findViewById(R.id.name);
-        TextView crsid = rootView.findViewById(R.id.crsid);
-        TextView email = rootView.findViewById(R.id.email);
+        final TextView name = rootView.findViewById(R.id.name);
+        final TextView crsid = rootView.findViewById(R.id.crsid);
+        final TextView email = rootView.findViewById(R.id.email);
         order = rootView.findViewById(R.id.order);
-        EditText dietary = rootView.findViewById(R.id.dietary);
+        final EditText dietary = rootView.findViewById(R.id.dietary);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         list.clear();
         adapter.notifyDataSetChanged();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cart_recyclerView);
+        final RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cart_recyclerView);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
+
+        cartImageButton = (ImageView) rootView.findViewById(R.id.cart_button);
+        cartImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment nextFragment = new CartFragment(); //change this to expanded fragment name
+                Bundle bundle = new Bundle();
+                nextFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
 
         adapter.setOnDeleteClickListener(new CartAdapter.OnDeleteClickListener() {
             @Override
@@ -149,6 +187,65 @@ public class CartFragment extends Fragment {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                totalCalc();
+                String notes = dietary.getText().toString();
+                Timestamp now = Timestamp.now();
+
+                Integer size1 = tempCafeCartList.size();
+                Integer size2 = tempBarCartList.size();
+                Integer size4 = tempCafePriceList.size();
+                Integer size3 = tempBarPriceList.size();
+
+                if(size1 > 0 && size4 > 0) {
+
+                    Map<String, Object> cafe = new HashMap<>();
+                    cafe.put("archived", false);
+                    cafe.put("cancelled", false);
+                    cafe.put("flagged", false);
+                    cafe.put("email", outputEmail);
+                    cafe.put("location", "Cafe");
+                    cafe.put("order_datetime", now);
+                    cafe.put("price", cafeCartTotal);
+                    cafe.put("user", outputCrsid);
+                    cafe.put("name", outputName);
+                    cafe.put("items", MainActivity.cafeCart);
+                    cafe.put("note", notes);
+
+                    String newDoc = db.collection("orders").document().getId();
+                    db.collection("orders").document(newDoc)
+                            .set(cafe)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                }
+                            });
+
+                }
+
+                if(size2 > 0 && size3 > 0) {
+                    Map<String, Object> bar = new HashMap<>();
+                    bar.put("archived", false);
+                    bar.put("cancelled", false);
+                    bar.put("flagged", false);
+                    bar.put("email", outputEmail);
+                    bar.put("location", "Bar");
+                    bar.put("order_datetime", now);
+                    bar.put("price", barCartTotal);
+                    bar.put("user", outputCrsid);
+                    bar.put("name", outputName);
+                    bar.put("items", MainActivity.barCart);
+                    bar.put("note", notes);
+
+                    String newDoc = db.collection("orders").document().getId();
+                    db.collection("orders").document(newDoc)
+                            .set(bar)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                }
+                            });
+                }
+
                 MainActivity.barPrices.clear();
                 MainActivity.barCart.clear();
                 MainActivity.cafePrices.clear();
@@ -165,6 +262,32 @@ public class CartFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        String UID = mFirebaseAuth.getUid();
+
+        DocumentReference docRef = db.collection("users").document(UID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        user = document.toObject(User.class);
+                        outputEmail = user.getEmail();
+                        outputName = user.getFirstname() + user.getLastname();
+                        outputCrsid = user.getCrsid();
+                        name.setText(outputName);
+                        crsid.setText(outputCrsid);
+                        email.setText(outputEmail);
+                    } else {
+                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         return(rootView);
     }
@@ -219,9 +342,6 @@ public class CartFragment extends Fragment {
         }
 
         Double cartTotal = barCartTotal + cafeCartTotal;
-
-        Toast.makeText(getContext(), barCartTotal.toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getContext(), cafeCartTotal.toString(), Toast.LENGTH_SHORT).show();
 
         String priceString = String.format("%.2f", cartTotal);
         String orderText = "ORDER:       £" + priceString;

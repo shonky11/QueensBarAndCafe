@@ -13,23 +13,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteY="0dp"
+        android:background="@color/colorPrimaryLight">
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="100sp"
             android:contentDescription="bridge_logo"
-            android:src="@drawable/ic_bridge_logo2"/>
+            android:src="@drawable/qbar"/>
 
         <ImageView
             android:id="@+id/sign_in_button_image"
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:layout_below="@id/imageView2"
-            android:layout_marginTop="60sp"
+            android:layout_marginTop="40dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/common_signin_button_text"
             app:srcCompat="@drawable/signupbutton4" />
@@ -52,7 +53,7 @@
             android:layout_gravity="center_horizontal"
             android:text="Join the Queens' community and sign up with Raven"
             android:textSize="12sp"
-            android:textColor="@color/gray"
+            android:textColor="#FFFFFF"
             android:gravity="center_horizontal"
             />
 
@@ -75,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OR"
-                android:textColor="@color/gray"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"/>
@@ -112,14 +113,15 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@color/colorPrimaryLight">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Already have an account?"
                             android:layout_gravity="center_horizontal"
-                            android:textColor="@color/gray"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             />
 
@@ -127,8 +129,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" Log in"
+                            android:textStyle="bold"
                             android:textSize="14sp"
-                            android:textColor="@color/queenscolor"
+                            android:textColor="@color/colorPrimary"
                             android:layout_gravity="center_horizontal"
                             />
 

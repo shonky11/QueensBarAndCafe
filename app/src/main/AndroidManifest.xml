@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qads.queensbarandcafe">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/qbar"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/qbar"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -16,9 +17,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <!--uncomment this if you want the login page to come up every time the user closes the app
-                <category android:name="android.intent.category.LAUNCHER" />-->
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -47,7 +45,7 @@
 
         <meta-data
             android:name="com.qads.queensbarandcafe.helpers.FirebaseMessagingService"
-            android:resource="@drawable/ic_qbar_icon" />
+            android:resource="@drawable/qbar" />
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data

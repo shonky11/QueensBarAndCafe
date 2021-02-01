@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,6 +52,7 @@ public class BarFragment extends Fragment {
     private List<Category> categoriesList = new ArrayList<>();
     private CategoryAdapter adapter = new CategoryAdapter(categoriesList);
     private SwipeRefreshLayout swipeContainer;
+    private ListenerRegistration catsReg;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +73,6 @@ public class BarFragment extends Fragment {
         categoriesRecycler.setAdapter(adapter);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        setupCollapsingToolbar(rootView);
 
         adapter.setOnCategoryClickListener(new CategoryAdapter.OnCategoryClickListener() {
             @Override
@@ -85,9 +86,17 @@ public class BarFragment extends Fragment {
         cartImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "hehe", Toast.LENGTH_SHORT).show();
+                Fragment nextFragment = new CartFragment(); //change this to expanded fragment name
+                Bundle bundle = new Bundle();
+                nextFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
+
 
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -108,20 +117,15 @@ public class BarFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
+        catsReg.remove();
     }
 
-    private void setupCollapsingToolbar(View rootView){
-        relativeLayout = rootView.findViewById(R.id.relative_layout);
-        loadedCardView = rootView.findViewById(R.id.final_card_view);
-        loadedToolbar = rootView.findViewById(R.id.final_toolbar);
-
-    }
 
     public void createCategoriesList(final TextView closed) {
 
         Query query = categoryRef.whereEqualTo("location", "Bar").orderBy("name", Query.Direction.ASCENDING);
 
-        query .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        catsReg = query .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
                                 @Nullable FirebaseFirestoreException error) {

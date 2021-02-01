@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:background="@color/colorPrimaryLight"
         android:scrollingCache = "true"
         tools:layout_behaviour = "@string/appbar_scrolling_view_behaviour">
 
@@ -22,13 +23,21 @@
             android:orientation="vertical"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp"
-            android:layout_gravity="center">
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/qbar"/>
 
 
             <EditText
                 android:id="@+id/first"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView2"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/edit_text_box"
                 android:padding="9dp"
@@ -54,19 +63,24 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/signupbtn"
-                android:layout_width="300dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/last"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="150dp"
-                app:cardBackgroundColor="#003702"
-                app:cardCornerRadius="3dp">
+                android:background="@drawable/rounded_button"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="25dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:textSize="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:text="Sign Up"
                     android:textColor="@color/cards"
                     android:textStyle="bold"

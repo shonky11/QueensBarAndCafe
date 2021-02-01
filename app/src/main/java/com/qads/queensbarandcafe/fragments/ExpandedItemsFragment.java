@@ -66,6 +66,7 @@ public class ExpandedItemsFragment extends Fragment{
     private Button cartButton;
     private Double itemPriceFinal = 0.00;
     private int itemQuantity = 1;
+    private ImageView cartImageButton;
     private TextView itemQuantDisp;
     private ImageView itemInc, itemDec, bigpic;
     private Map<String, Object> outputMap = new HashMap<>();
@@ -76,6 +77,7 @@ public class ExpandedItemsFragment extends Fragment{
     private String outputLocation;
     private Double totalPrice = 0.00;
     private SwipeRefreshLayout swipeContainer;
+    private TextView noOps;
 
     @Nullable
     @Override
@@ -87,7 +89,7 @@ public class ExpandedItemsFragment extends Fragment{
         list.clear();
         adapter.notifyDataSetChanged();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.options_recyclerView);
+        final RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.options_recyclerView);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
@@ -97,6 +99,7 @@ public class ExpandedItemsFragment extends Fragment{
         itemInc = rootView.findViewById(R.id.item_plus);
         itemDec = rootView.findViewById(R.id.item_minus);
         bigpic = rootView.findViewById(R.id.expandedPic);
+        noOps = rootView.findViewById(R.id.noops);
 
         adapter.setOnPlusClickListener(new OptionsAdapter.OnPlusClickListener() {
             @Override
@@ -118,6 +121,22 @@ public class ExpandedItemsFragment extends Fragment{
                 checkit(v, position);
             }
         });
+
+        cartImageButton = (ImageView) rootView.findViewById(R.id.cart_button);
+        cartImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment nextFragment = new CartFragment(); //change this to expanded fragment name
+                Bundle bundle = new Bundle();
+                nextFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
 
         cartButton = (Button) rootView.findViewById(R.id.add_to_cart);
 
@@ -152,19 +171,9 @@ public class ExpandedItemsFragment extends Fragment{
                     }
                 }
 
-                Fragment nextFragment = new CartFragment(); //change this to expanded fragment name
-                Bundle bundle = new Bundle();
-                bundle.putString("Current MenuItem", id); //the key is the "Current MenuItem
-                nextFragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-               /* FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 assert fragmentManager != null;
-                fragmentManager.popBackStack(null, 0);*/
+                fragmentManager.popBackStack(null, 0);
             }
         });
 
@@ -212,16 +221,23 @@ public class ExpandedItemsFragment extends Fragment{
 
                         int iterator = menuItem.getOptionsList().size();
 
-                        for (int i = 0; i < iterator; i++){
-                            Map<String, Object> optionLoad= (Map<String, Object>) menuItem.getOptionsList().get(i);
-                            Boolean can_have_multiple = (Boolean) optionLoad.get("can_have_multiple");
-                            Number extra_price = (Number) optionLoad.get("extra_price");
-                            String name = (String) optionLoad.get("name");
+                        if (iterator != 0) {
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            noOps.setVisibility(View.GONE);
+                            for (int i = 0; i < iterator; i++){
+                                Map<String, Object> optionLoad= (Map<String, Object>) menuItem.getOptionsList().get(i);
+                                Boolean can_have_multiple = (Boolean) optionLoad.get("can_have_multiple");
+                                Number extra_price = (Number) optionLoad.get("extra_price");
+                                String name = (String) optionLoad.get("name");
 
-                            list.add(new OptionsModel(can_have_multiple, extra_price, name));
+                                list.add(new OptionsModel(can_have_multiple, extra_price, name));
+                            }
+                            adapter.notifyDataSetChanged();
+                        }else if (iterator == 0){
+                            mRecyclerView.setVisibility(View.GONE);
+                            noOps.setVisibility(View.VISIBLE);
                         }
 
-                        adapter.notifyDataSetChanged();
 
                     } else {
                         Toast.makeText(getContext(), "This Item does not exist", Toast.LENGTH_SHORT).show();

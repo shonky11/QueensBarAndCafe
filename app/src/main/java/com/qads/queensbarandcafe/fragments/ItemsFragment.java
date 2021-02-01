@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class ItemsFragment extends Fragment {
     private CollectionReference menuItemRef = db.collection("menuitems");
     private MenuItemAdapter adapter;
     private String category;
+    private ImageView cartImageButton;
     private String location;
     private SwipeRefreshLayout swipeContainer;
 
@@ -100,6 +102,22 @@ public class ItemsFragment extends Fragment {
                 //Toast.makeText(getContext(), "Position: " + position + " ID: " + clicked.getOptionsList().get(1).get("name"), Toast.LENGTH_SHORT).show();
             }
         });
+
+        cartImageButton = (ImageView) rootView.findViewById(R.id.cart_button);
+        cartImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment nextFragment = new CartFragment(); //change this to expanded fragment name
+                Bundle bundle = new Bundle();
+                nextFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, nextFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
 
     }
 
