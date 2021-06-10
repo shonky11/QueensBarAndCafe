@@ -23,7 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.qads.queensbarandcafe.R;
-import com.qads.queensbarandcafe.helpers.User;
+import com.qads.queensbarandcafe.models.UserModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -191,7 +191,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                                         }
                                                 });
-                                        User users = new User("", mFirebaseAuth.getUid(), "", "", "");
+                                        UserModel users = new UserModel("", mFirebaseAuth.getUid(), "", "", "");
                                         docIdRef.set(users)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override

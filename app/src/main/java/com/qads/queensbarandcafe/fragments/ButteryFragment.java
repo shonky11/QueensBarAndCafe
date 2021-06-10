@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class BarFragment extends Fragment {
+public class ButteryFragment extends Fragment {
 
     ArrayList<CategoryModel> categories;
     private RecyclerView eventsView;
@@ -53,9 +53,9 @@ public class BarFragment extends Fragment {
     private List<CategoryModel> categoriesList = new ArrayList<>();
     private CategoryAdapter adapter = new CategoryAdapter(categoriesList);
     private SwipeRefreshLayout swipeContainer;
-    private DocumentReference locRef = db.collection("locations").document("bar");
+    private DocumentReference locRef = db.collection("locations").document("buttery");
     private ListenerRegistration catsReg;
-    public static Boolean barOpen = false;
+    public static Boolean butteryOpen = false;
     private ListenerRegistration locReg;
 
     @Override
@@ -128,7 +128,7 @@ public class BarFragment extends Fragment {
 
     public void createCategoriesList(final TextView closed) {
 
-        Query query = categoryRef.whereEqualTo("location", "Bar").orderBy("name", Query.Direction.ASCENDING);
+        Query query = categoryRef.whereEqualTo("location", "Buttery").orderBy("order", Query.Direction.ASCENDING);
         locReg = locRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
@@ -138,8 +138,8 @@ public class BarFragment extends Fragment {
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    barOpen = (Boolean) snapshot.getData().get("open");
-                    if(!barOpen){
+                    butteryOpen = (Boolean) snapshot.getData().get("open");
+                    if(!butteryOpen){
                         closed.setText("Bar Closed");
                         closed.setVisibility(View.VISIBLE);
                     } else {
@@ -189,11 +189,11 @@ public class BarFragment extends Fragment {
     }
 
     public void onCategoryClickeroo(View v, CategoryModel clickCat){
-        if(barOpen) {
+        if(butteryOpen) {
             Fragment nextFragment = new ItemsFragment();
             Bundle bundle = new Bundle();
             bundle.putString("Current Category", clickCat.getName());
-            bundle.putString("Current Location", "Bar");
+            bundle.putString("Current Location", "Buttery");
             nextFragment.setArguments(bundle);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

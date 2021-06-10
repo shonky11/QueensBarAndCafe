@@ -1,4 +1,4 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.qads.queensbarandcafe.R;
+import com.qads.queensbarandcafe.models.CategoryModel;
 
 import java.util.List;
 
@@ -22,10 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private List<Category> mCategory;
+    private List<CategoryModel> mCategory;
     private OnCategoryClickListener mCategoryListener;
 
-    public CategoryAdapter(List<Category> categories) {
+    public CategoryAdapter(List<CategoryModel> categories) {
         mCategory = categories;
     }
 
@@ -48,7 +49,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Category category = mCategory.get(position);
+        CategoryModel category = mCategory.get(position);
         TextView textView = holder.categoryName;
         textView.setText(category.getName());
         ImageView imageView = holder.categoryPic;

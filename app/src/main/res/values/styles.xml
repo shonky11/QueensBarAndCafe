@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <dimen name="marginboi">48dp</dimen>
+    <dimen name="marginboiRight">8dp</dimen>
+    <dimen name="textboi">16dp</dimen>
+    <dimen name="minHeight">180dp</dimen>
+
 </resources>

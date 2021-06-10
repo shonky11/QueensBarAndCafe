@@ -1,15 +1,15 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.models;
 
-public class CartItem {
+public class CartModel {
     public String itemName;
     public String itemDescription;
     public String itemPrice;
     public String itemLoc;
 
-    public CartItem(){
+    public CartModel(){
     }
 
-    public CartItem (String itemName, String itemPrice, String itemDescription, String itemLoc){
+    public CartModel(String itemName, String itemPrice, String itemDescription, String itemLoc){
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemDescription = itemDescription;

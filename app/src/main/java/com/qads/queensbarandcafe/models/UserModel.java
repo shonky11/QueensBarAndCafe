@@ -1,17 +1,17 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.models;
 
-public class User {
+public class UserModel {
     private String mCrsid;
     private String mUid;
     private String mFirstname;
     private String mLastname;
     private String mEmail;
 
-    public User(){
+    public UserModel(){
 
     }
 
-    public User(String crsid, String uid, String firstname, String lastname, String email){
+    public UserModel(String crsid, String uid, String firstname, String lastname, String email){
         mCrsid = crsid;
         mUid = uid;
         mFirstname = firstname;

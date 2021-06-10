@@ -1,33 +1,29 @@
 package com.qads.queensbarandcafe.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.qads.queensbarandcafe.R;
 import com.qads.queensbarandcafe.activities.MainActivity;
-import com.qads.queensbarandcafe.helpers.CartAdapter;
-import com.qads.queensbarandcafe.helpers.CartItem;
-import com.qads.queensbarandcafe.helpers.OptionsAdapter;
-import com.qads.queensbarandcafe.helpers.OptionsModel;
-import com.qads.queensbarandcafe.helpers.User;
+import com.qads.queensbarandcafe.adapters.CartAdapter;
+import com.qads.queensbarandcafe.models.CartModel;
+import com.qads.queensbarandcafe.models.UserModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,13 +47,19 @@ public class CartFragment extends Fragment {
     private List<Object> tempBarCartList = new ArrayList<>();
     private List<Object> tempCafePriceList = new ArrayList<>();
     private List<Object> tempBarPriceList = new ArrayList<>();
-    private ArrayList<CartItem> list= new ArrayList<>();
+    private List<Object> tempButteryCartList = new ArrayList<>();
+    private List<Object> tempButteryPriceList = new ArrayList<>();
+    private ArrayList<CartModel> list= new ArrayList<>();
     private CartAdapter adapter = new CartAdapter(list);
     private Double cafeCartTotal = 0.00;
     private Double barCartTotal = 0.00;
+    private Double butteryCartTotal = 0.00;
     private ImageView cartImageButton;
     private Button order;
-    private User user = new User();
+    private Button next;
+    private Button back;
+    private LinearLayout linlay;
+    private UserModel user = new UserModel();
     private String outputEmail = "";
     private String outputName = "";
     private String outputCrsid = "";
@@ -69,7 +71,10 @@ public class CartFragment extends Fragment {
         final TextView name = rootView.findViewById(R.id.name);
         final TextView crsid = rootView.findViewById(R.id.crsid);
         final TextView email = rootView.findViewById(R.id.email);
-        order = rootView.findViewById(R.id.order);
+        linlay = rootView.findViewById(R.id.UpayConf);
+        order = rootView.findViewById(R.id.upayYes);
+        next = rootView.findViewById(R.id.order);
+        back = rootView.findViewById(R.id.upayNo);
         final EditText dietary = rootView.findViewById(R.id.dietary);
         mFirebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -109,6 +114,9 @@ public class CartFragment extends Fragment {
         tempCafeCartList = MainActivity.cafeCart;
         tempBarCartList = MainActivity.barCart;
         tempBarPriceList = MainActivity.barPrices;
+        tempButteryCartList = MainActivity.butteryCart;
+        tempButteryPriceList = MainActivity.butteryPrices;
+
         Integer size1 = tempCafeCartList.size();
         Integer size4 = tempCafePriceList.size();
 
@@ -137,15 +145,13 @@ public class CartFragment extends Fragment {
                     tempDesc = tempDesc + tempOptionName + ":   " + tempOptionQuantity + "\n";
                 }
 
-                list.add(new CartItem(tempName, tempPriceinPounds, tempDesc, "Cafe"));
+                list.add(new CartModel(tempName, tempPriceinPounds, tempDesc, "Cafe"));
                 adapter.notifyDataSetChanged();
             }
         }
 
         Integer size2 = tempBarCartList.size();
         Integer size3 = tempBarPriceList.size();
-
-
 
         if(size2 > 0 && size3 > 0) {
             for (int i = 0; i < size2; i++) {
@@ -173,7 +179,41 @@ public class CartFragment extends Fragment {
                     tempDesc = tempDesc + tempOptionName + ":   " + tempOptionQuantity + "\n";
                 }
 
-                list.add(new CartItem(tempName, tempPriceinPounds, tempDesc, "Bar"));
+                list.add(new CartModel(tempName, tempPriceinPounds, tempDesc, "Bar"));
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        Integer size5 = tempButteryCartList.size();
+        Integer size6 = tempButteryPriceList.size();
+
+        if(size5 > 0 && size6 > 0) {
+            for (int i = 0; i < size5; i++) {
+
+                Map<String, Object> tempMap = new HashMap<>();
+                Map<String, Object> tempPriceMap = new HashMap<>();
+                tempMap = (Map<String, Object>) tempButteryCartList.get(i);
+                tempPriceMap = (Map<String, Object>) tempButteryPriceList.get(i);
+
+                String tempName = (String) tempMap.get("name");
+
+                Double tempPrice = (Double) tempPriceMap.get(tempName);
+                String tempPriceString = String.format("%.2f", tempPrice);
+                String tempPriceinPounds = "£" + tempPriceString;
+
+                Map<String, Object> tempAllOptions = new HashMap<>();
+                String tempDesc = "";
+                tempAllOptions = (Map<String, Object>) tempMap.get("options");
+                for (String key : tempAllOptions.keySet()) {
+                    Map<String, Object> tempOption = new HashMap<>();
+                    tempOption = (Map<String, Object>) tempAllOptions.get(key);
+                    String tempOptionName = (String) tempOption.get("name");
+                    String tempOptionQuantity = (String) tempOption.get("quantity").toString();
+
+                    tempDesc = tempDesc + tempOptionName + ":   " + tempOptionQuantity + "\n";
+                }
+
+                list.add(new CartModel(tempName, tempPriceinPounds, tempDesc, "Buttery"));
                 adapter.notifyDataSetChanged();
             }
         }
@@ -183,6 +223,34 @@ public class CartFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
         totalCalc();
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Integer size1 = tempCafeCartList.size();
+                Integer size2 = tempBarCartList.size();
+                Integer size4 = tempCafePriceList.size();
+                Integer size3 = tempBarPriceList.size();
+                Integer size5 = tempButteryCartList.size();
+                Integer size6 = tempButteryPriceList.size();
+
+                if(size1 == 0 && size4 == 0 && size2 == 0 && size3 == 0 && size5 == 0 && size6 == 0) {
+                    Toast.makeText(getContext(), "Your cart is empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    next.setVisibility(View.GONE);
+                    linlay.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                next.setVisibility(View.VISIBLE);
+                linlay.setVisibility(View.GONE);
+            }
+        });
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +263,8 @@ public class CartFragment extends Fragment {
                 Integer size2 = tempBarCartList.size();
                 Integer size4 = tempCafePriceList.size();
                 Integer size3 = tempBarPriceList.size();
+                Integer size5 = tempButteryCartList.size();
+                Integer size6 = tempButteryPriceList.size();
 
                 if(size1 > 0 && size4 > 0) {
 
@@ -246,10 +316,36 @@ public class CartFragment extends Fragment {
                             });
                 }
 
+                if(size5 > 0 && size6 > 0) {
+                    Map<String, Object> buttery = new HashMap<>();
+                    buttery.put("archived", false);
+                    buttery.put("cancelled", false);
+                    buttery.put("flagged", false);
+                    buttery.put("email", outputEmail);
+                    buttery.put("location", "Buttery");
+                    buttery.put("order_datetime", now);
+                    buttery.put("price", butteryCartTotal);
+                    buttery.put("user", outputCrsid);
+                    buttery.put("name", outputName);
+                    buttery.put("items", MainActivity.butteryCart);
+                    buttery.put("note", notes);
+
+                    String newDoc = db.collection("orders").document().getId();
+                    db.collection("orders").document(newDoc)
+                            .set(buttery)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                }
+                            });
+                }
+
                 MainActivity.barPrices.clear();
                 MainActivity.barCart.clear();
                 MainActivity.cafePrices.clear();
                 MainActivity.cafeCart.clear();
+                MainActivity.butteryPrices.clear();
+                MainActivity.butteryCart.clear();
                 Fragment nextFragment = new EndFragment(); //change this to expanded fragment name
                 Bundle bundle = new Bundle();
                 nextFragment.setArguments(bundle);
@@ -272,9 +368,9 @@ public class CartFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        user = document.toObject(User.class);
+                        user = document.toObject(UserModel.class);
                         outputEmail = user.getEmail();
-                        outputName = user.getFirstname() + user.getLastname();
+                        outputName = user.getFirstname() + " " + user.getLastname();
                         outputCrsid = user.getCrsid();
                         name.setText(outputName);
                         crsid.setText(outputCrsid);
@@ -305,6 +401,13 @@ public class CartFragment extends Fragment {
             adapter.notifyItemRemoved(position);
             MainActivity.barCart.remove(position - size1);
             MainActivity.barPrices.remove(position - size1);
+        } else if (list.get(position).getItemLoc().equals("Buttery")) {
+            int size1 = tempCafeCartList.size();
+            int size2 = tempBarCartList.size();
+            list.remove(position);
+            adapter.notifyItemRemoved(position);
+            MainActivity.butteryCart.remove(position - size1 - size2);
+            MainActivity.butteryPrices.remove(position - size1 - size2);
         }
 
         totalCalc();
@@ -313,10 +416,13 @@ public class CartFragment extends Fragment {
     private void totalCalc(){
         cafeCartTotal = 0.00;
         barCartTotal = 0.00;
+        butteryCartTotal = 0.00;
         Integer size1 = tempCafeCartList.size();
         Integer size2 = tempBarCartList.size();
         Integer size4 = tempCafePriceList.size();
         Integer size3 = tempBarPriceList.size();
+        Integer size5 = tempButteryCartList.size();
+        Integer size6 = tempButteryPriceList.size();
         if(size1 > 0 && size4 > 0) {
             for (int i = 0; i < size1; i++) {
                 Map<String, Object> tempMap = new HashMap<>();
@@ -341,10 +447,22 @@ public class CartFragment extends Fragment {
             }
         }
 
-        Double cartTotal = barCartTotal + cafeCartTotal;
+        if(size5 > 0 && size6 > 0) {
+            for (int i = 0; i < size5; i++) {
+                Map<String, Object> tempMap = new HashMap<>();
+                tempMap = (Map<String, Object>) tempButteryCartList.get(i);
+                Map<String, Object> tempPriceMap = new HashMap<>();
+                tempPriceMap = (Map<String, Object>) tempButteryPriceList.get(i);
+                String tempName = (String) tempMap.get("name");
+                Double tempPrice = (Double) tempPriceMap.get(tempName);
+                butteryCartTotal += tempPrice;
+            }
+        }
+
+        Double cartTotal = barCartTotal + cafeCartTotal + butteryCartTotal;
 
         String priceString = String.format("%.2f", cartTotal);
         String orderText = "ORDER:       £" + priceString;
-        order.setText(orderText);
+        next.setText(orderText);
     }
 }

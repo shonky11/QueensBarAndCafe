@@ -1,10 +1,11 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MenuItem {
+public class MenuModel {
 
     private String mName;
     private String mDescription;
@@ -14,12 +15,14 @@ public class MenuItem {
     private Map<String, Map<String, Object>> mOptionsTemp;
     public static List<Map<String, Object>> mOptions = new ArrayList<>();
     private List<String> mSize;
+    private List<String> mAllergens = new ArrayList<>();
+    private Map<String, Map<String, Object>> mTypes = new HashMap<String, Map<String, Object>>();
 
-    public MenuItem(){
+    public MenuModel(){
 
     }
 
-    public MenuItem(String productname, String productdescription, Double productprice, Boolean productinstock, String productlocation, Map<String, Map<String, Object>> optionstemp, List<String> size){
+    public MenuModel(String productname, String productdescription, Double productprice, Boolean productinstock, String productlocation, Map<String, Map<String, Object>> optionstemp, List<String> size, List<String> allergens, Map<String, Map<String, Object>> types){
 
         mName = productname;
         mDescription = productdescription;
@@ -28,6 +31,8 @@ public class MenuItem {
         mLocation = productlocation;
         mOptionsTemp = optionstemp;
         mSize = size;
+        mAllergens = allergens;
+        mTypes = types;
 
     }
 
@@ -36,12 +41,12 @@ public class MenuItem {
     }
 
 
-    public String getName(){return mName;}
-    public String getDescription(){return mDescription;}
-    public String getLocation(){return mLocation;}
-    public Double getPrice(){return mPrice;}
-    public boolean getStock(){return mStock;}
-    public Map<String, Map<String, Object>> getOptions(){return mOptionsTemp;}
+    public String getName(){ return mName; }
+    public String getDescription(){ return mDescription; }
+    public String getLocation(){ return mLocation; }
+    public Double getPrice(){ return mPrice; }
+    public boolean getStock(){ return mStock; }
+    public Map<String, Map<String, Object>> getOptions(){ return mOptionsTemp; }
     public List<Map<String, Object>> getOptionsList(){
         mOptions.clear();
         for(String opt : mOptionsTemp.keySet()){
@@ -49,7 +54,9 @@ public class MenuItem {
         } //use this to get the options -- iterates over the key set -
         return (mOptions);
     }
-    public List<String> getSize(){return mSize;}
+    public List<String> getAllergens(){ return mAllergens; }
+    public List<String> getSize(){ return mSize; }
+    public Map<String, Map<String, Object>> getTypes(){ return mTypes; }
 
     public void setName(String productName) { this.mName = productName; }
     public void setDescription(String productDescription) { this.mDescription = productDescription; }
@@ -57,6 +64,8 @@ public class MenuItem {
     public void setStock(boolean productInStock) { this.mStock = productInStock; }
     public void setLocation(String productLocation) { this.mLocation = productLocation; }
     public void setOptions(Map<String, Map<String, Object>> optionsTemp) { this.mOptionsTemp = optionsTemp; }
+    public void setAllergens(List<String> allergens) { this.mAllergens = allergens; }
     public void setSize(List<String> size) { this.mSize = size; }
+    public void setTypes(Map<String, Map<String, Object>> types) { this.mTypes = types; }
 
 }

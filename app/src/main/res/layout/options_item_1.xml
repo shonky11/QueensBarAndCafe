@@ -7,7 +7,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:orientation="horizontal">
 
@@ -16,18 +16,32 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="16dp"
+                android:minHeight="180dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="48dp"
                 android:text="Multiple option"
                 android:textColor="#000000"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:layout_gravity="center"
                 android:textStyle="bold"/>
 
+            <TextView
+                android:id="@+id/final_pricetxt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="£0.00"
+                android:textColor="#BFBFBF"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:textStyle="bold"/>
+
             <ImageView
                 android:id="@+id/btn_minus"
-                android:layout_width="26dp"
+                android:layout_width="38dp"
                 android:layout_gravity="center"
-                android:layout_height="26dp"
+                android:layout_height="38dp"
+                android:padding="6dp"
                 android:src="@drawable/ic_remove_circle_outline_black_24dp"/>
 
             <TextView
@@ -44,32 +58,15 @@
 
             <ImageView
                 android:id="@+id/btn_plus"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginRight="8dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:padding="6dp"
+                android:layout_marginRight="48dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_add_circle_outline_black_24dp" />
 
-            <TextView
-                android:id="@+id/final_pricetxt"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="£0.00"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:gravity="center"
-                android:layout_marginRight="16dp"
-                android:textStyle="bold"/>
+
 
         </LinearLayout>
-
-    <View
-        android:id="@+id/divider3"
-        android:layout_below="@id/options_card"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorPrimary" />
 
 </LinearLayout>

@@ -15,16 +15,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.qads.queensbarandcafe.R;
-import com.qads.queensbarandcafe.activities.MainActivity;
-import com.qads.queensbarandcafe.helpers.MenuItem;
-import com.qads.queensbarandcafe.helpers.MenuItemAdapter;
+import com.qads.queensbarandcafe.models.MenuModel;
+import com.qads.queensbarandcafe.adapters.MenuItemAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -80,8 +78,8 @@ public class ItemsFragment extends Fragment {
 
         Query query = menuItemRef.whereEqualTo("location", location).whereEqualTo("category", category).orderBy("name", Query.Direction.ASCENDING);
 
-        FirestoreRecyclerOptions<MenuItem> options = new FirestoreRecyclerOptions.Builder<MenuItem>()
-                .setQuery(query, MenuItem.class).build();
+        FirestoreRecyclerOptions<MenuModel> options = new FirestoreRecyclerOptions.Builder<MenuModel>()
+                .setQuery(query, MenuModel.class).build();
 
         adapter = new MenuItemAdapter(options);
         RecyclerView recyclerView = rootView.findViewById(R.id.items_rv);
@@ -93,7 +91,7 @@ public class ItemsFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String id = documentSnapshot.getId();
-                MenuItem clicked = (MenuItem) adapter.getItem(position); //e.g whole latte documentå
+                MenuModel clicked = (MenuModel) adapter.getItem(position); //e.g whole latte documentå
                 if(!clicked.getStock()){
                     Toast.makeText(getActivity(), "This item is out of stock", Toast.LENGTH_SHORT).show();
                 } else {

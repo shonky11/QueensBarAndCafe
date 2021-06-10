@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.qads.queensbarandcafe.R;
-import com.qads.queensbarandcafe.helpers.User;
+import com.qads.queensbarandcafe.models.UserModel;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    User users = new User(crsid, mFirebaseAuth.getUid(), first_name, last_name, email);
+                    UserModel users = new UserModel(crsid, mFirebaseAuth.getUid(), first_name, last_name, email);
                     docRef.set(users)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

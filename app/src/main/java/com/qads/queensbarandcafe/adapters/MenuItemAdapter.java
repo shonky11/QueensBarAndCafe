@@ -1,6 +1,5 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.adapters;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +9,21 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.qads.queensbarandcafe.R;
-import com.qads.queensbarandcafe.fragments.ItemsFragment;
+import com.qads.queensbarandcafe.models.MenuModel;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MenuItemAdapter extends FirestoreRecyclerAdapter<MenuItem, MenuItemAdapter.MenuItemHolder> {
+public class MenuItemAdapter extends FirestoreRecyclerAdapter<MenuModel, MenuItemAdapter.MenuItemHolder> {
 
     private OnItemClickListener listener;
 
-    public MenuItemAdapter(@NonNull FirestoreRecyclerOptions<MenuItem> options) {
+    public MenuItemAdapter(@NonNull FirestoreRecyclerOptions<MenuModel> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull MenuItemHolder holder, int position, @NonNull MenuItem model) {
+    protected void onBindViewHolder(@NonNull MenuItemHolder holder, int position, @NonNull MenuModel model) {
         holder.itemDescription.setText(model.getDescription());
         holder.itemName.setText(model.getName());
         String priceString = String.format("%.2f", model.getPrice());

@@ -1,7 +1,6 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import okio.Options;
 
 import com.qads.queensbarandcafe.R;
+import com.qads.queensbarandcafe.models.OptionsModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -56,14 +53,12 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class NotMultipleViewHolder extends RecyclerView.ViewHolder {
 
         TextView optionsName;
-        TextView optionsPrice;
         CheckBox checker;
 
         public NotMultipleViewHolder(final View itemView) {
             super(itemView);
 
             this.optionsName = (TextView) itemView.findViewById(R.id.options_list);
-            this.optionsPrice = (TextView) itemView.findViewById(R.id.final_pricetxt);
             this.checker = (CheckBox) itemView.findViewById(R.id.checkbox);
 
             checker.setOnClickListener(new View.OnClickListener() {
@@ -136,11 +131,11 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         switch (viewType) {
             case OptionsModel.NOT_MULTIPLE:
-                itemView = inflater.inflate(R.layout.options_item, parent, false);
+                itemView = inflater.inflate(R.layout.options_item_0, parent, false);
                 OptionsAdapter.NotMultipleViewHolder nmViewHolder = new OptionsAdapter.NotMultipleViewHolder(itemView);
                 return nmViewHolder;
             case OptionsModel.MULTIPLE:
-                itemView = inflater.inflate(R.layout.options_item_2, parent, false);
+                itemView = inflater.inflate(R.layout.options_item_1, parent, false);
                 OptionsAdapter.MultipleViewHolder mViewHolder = new OptionsAdapter.MultipleViewHolder(itemView);
                 return mViewHolder;
         }
@@ -149,7 +144,7 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        Boolean test = optionSet.get(position).getmCanHaveMultiple();
+        Boolean test = optionSet.get(position).getCanHaveMultiple();
         if (!test) {
             return OptionsModel.NOT_MULTIPLE;
         } else if (test) {
@@ -161,16 +156,16 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         OptionsModel option = optionSet.get(position);
-        Number extra = option.getmTruePrice();
-        Number price = extra.doubleValue() / 100;
+        Number extra = option.getTruePrice();
+        Number price = extra.doubleValue();
         String priceString = String.format("%.2f", price);
-        String pricePounds= "+£" + priceString;
+        String pricePounds= "£" + priceString;
         switch(holder.getItemViewType()) {
             case OptionsModel.NOT_MULTIPLE:
-                ((NotMultipleViewHolder) holder).optionsName.setText(option.getmOptionName());
-                ((NotMultipleViewHolder) holder).optionsPrice.setText(pricePounds);
+                ((NotMultipleViewHolder) holder).optionsName.setText(option.getOptionName());
+                ((NotMultipleViewHolder) holder).checker.setText(pricePounds);
                 Boolean checkeroo;
-                if (option.getmQuantity() > 0){
+                if (option.getQuantity() > 0){
                     checkeroo = true;
                 }else{
                     checkeroo = false;
@@ -178,9 +173,9 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((NotMultipleViewHolder) holder).checker.setChecked(checkeroo);
                 break;
             case OptionsModel.MULTIPLE:
-                ((MultipleViewHolder) holder).optionsName.setText(option.getmOptionName());
+                ((MultipleViewHolder) holder).optionsName.setText(option.getOptionName());
                 ((MultipleViewHolder) holder).optionsPrice.setText(pricePounds);
-                Integer quantint = option.getmQuantity();
+                Integer quantint = option.getQuantity();
                 ((MultipleViewHolder) holder).quantity.setText(quantint.toString());
                 break;
         }

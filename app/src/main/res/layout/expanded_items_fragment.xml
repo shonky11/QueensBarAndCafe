@@ -65,7 +65,6 @@
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,7 +94,7 @@
                         android:scaleType="centerCrop" />
 
                     <TextView
-                        android:id="@+id/ex_event_name_text_view"
+                        android:id="@+id/item_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -112,8 +111,8 @@
                     <View
                         android:id="@+id/divider2"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_height="4dp"
+                        android:layout_marginBottom="24dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
@@ -121,36 +120,81 @@
 
                     <TextView
                         android:autoLink="web"
-                        android:id="@+id/ex_event_description_text_view"
+                        android:id="@+id/item_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:fontFamily="sans-serif"
                         android:gravity="center_horizontal"
                         android:textAlignment="center"
                         android:textColor="#000000"
                         android:textSize="16sp"/>
+
+
                     <TextView
+                        android:id="@+id/item_allergens"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginBottom="32dp"
+                        android:autoLink="email"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="#FF3B3B"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="Error, no allergen data received. Please contact catering staff"/>
+
+                    <View
+                        android:id="@+id/shaddow1"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#CCC6C6C6" />
+
+                    <View
+                        android:id="@+id/spacing1"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#E3E3E3" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/types_recyclerView"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"/>
+
+
+                    <View
+                        android:id="@+id/shaddow2"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#CCC6C6C6" />
+
+                    <TextView
+                        android:layout_marginTop="32dp"
                         android:id="@+id/ex_event_details_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginLeft="24dp"
                         android:fontFamily="sans-serif"
-                        android:text="Customizations:"
-                        android:textAlignment="center"
+                        android:text="Customise Item"
+                        android:textAlignment="viewStart"
                         android:textColor="#000000"
                         android:textSize="18sp"
-                        android:textStyle="normal" />
+                        android:textStyle="bold" />
 
                     <View
                         android:id="@+id/divider3"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="4dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="24dp"
                         android:layout_marginRight="12dp"
                         android:background="@color/colorPrimary" />
 
@@ -159,6 +203,7 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp"
                         android:divider="@null"/>
 
                     <TextView
@@ -171,16 +216,145 @@
                         android:textStyle="bold"
                         android:layout_marginTop="16dp"
                         android:text="No Available Options"
+                        android:layout_marginBottom="32dp"
                         android:visibility="gone"
                         />
 
+                    <View
+                        android:id="@+id/shaddow3"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#CCC6C6C6" />
+
+                    <View
+                        android:id="@+id/spacing2"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#E3E3E3" />
+
+                    <View
+                        android:id="@+id/shaddow4"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#CCC6C6C6" />
+
+
+                    <TextView
+                        android:id="@+id/allergies_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="32dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Allergens"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/divider4"
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:background="@color/colorPrimary" />
+
+                    <TextView
+                        android:autoLink="web"
+                        android:id="@+id/allergies_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="Please add any allergies or dietary requirements"/>
+
+                    <TextView
+                        android:autoLink="web"
+                        android:id="@+id/allergies_lister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="No Allergies Added"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/allergies_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:divider="@null"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical"/>
+
+                    <EditText
+                        android:id="@+id/dietary"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginRight="48dp"
+                        android:inputType="text"
+                        android:textSize="16dp"
+                        android:hint="Other dietary requirements"
+                        />
+
+                    <TextView
+                        android:autoLink="web"
+                        android:id="@+id/allergies_adder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginBottom="32dp"
+                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
+                        android:text="+ Add Allergies"/>
+
+                    <View
+                        android:id="@+id/shaddow5"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#CCC6C6C6" />
+
+                    <View
+                        android:id="@+id/spacing3"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#E3E3E3" />
+
+                    <View
+                        android:id="@+id/shaddow6"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#CCC6C6C6" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="32dp">
+                        android:layout_marginTop="32dp"
+                        android:orientation="horizontal">
 
 
                         <ImageView
@@ -226,6 +400,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginBottom="48dp"
                         android:text="Add to Cart"
                         android:textColor="#ffffff" />
 

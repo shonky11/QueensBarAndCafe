@@ -1,14 +1,14 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qads.queensbarandcafe.R;
+import com.qads.queensbarandcafe.models.CartModel;
 
 import java.util.ArrayList;
 
@@ -16,11 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartAdapter extends RecyclerView.Adapter {
-    private ArrayList<CartItem> cartSet;
+    private ArrayList<CartModel> cartSet;
     private int total_types;
     private OnDeleteClickListener mDeleteClickListener;
 
-    public CartAdapter(ArrayList<CartItem> list) {
+    public CartAdapter(ArrayList<CartModel> list) {
         this.cartSet = list;
         total_types = cartSet.size();
     }
@@ -52,7 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        CartItem cartItem = cartSet.get(position);
+        CartModel cartItem = cartSet.get(position);
         ((ViewHolder) holder).cartName.setText(cartItem.getItemName());
         ((ViewHolder) holder).cartPrice.setText(cartItem.getItemPrice());
         ((ViewHolder) holder).cartDesc.setText(cartItem.getItemDescription());

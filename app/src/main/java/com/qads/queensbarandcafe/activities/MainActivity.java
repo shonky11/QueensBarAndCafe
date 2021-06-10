@@ -9,8 +9,10 @@ import android.view.MenuItem;
 import com.qads.queensbarandcafe.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.qads.queensbarandcafe.fragments.BarFragment;
+import com.qads.queensbarandcafe.fragments.ButteryFragment;
 import com.qads.queensbarandcafe.fragments.CafeFragment;
 import com.qads.queensbarandcafe.fragments.CartFragment;
+import com.qads.queensbarandcafe.fragments.ButteryFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public static List<Object> cafeCart = new ArrayList<>();
     public static List<Object> barPrices = new ArrayList<>();
     public static List<Object> barCart = new ArrayList<>();
+    public static List<Object> butteryPrices = new ArrayList<>();
+    public static List<Object> butteryCart = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_bar:
                             selectedFragment = new BarFragment();
+                            break;
+                        case R.id.nav_buttery:
+                            selectedFragment = new ButteryFragment();
                             break;
                     }
 

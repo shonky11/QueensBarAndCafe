@@ -10,4 +10,9 @@
         android:icon="@drawable/ic_qbar_icon"
         android:title="Bar" />
 
+    <item
+        android:id="@+id/nav_buttery"
+        android:icon="@drawable/ic_buttery_icon"
+        android:title="Buttery" />
+
 </menu>

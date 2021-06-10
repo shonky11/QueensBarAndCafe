@@ -1,16 +1,16 @@
-package com.qads.queensbarandcafe.helpers;
+package com.qads.queensbarandcafe.models;
 
-public class Category {
+public class CategoryModel {
 
     public String category;
     public String imageRef;
     public String location;
     public Boolean open;
 
-    public Category(){
+    public CategoryModel(){
     }
 
-    public Category (String category, String imageRef, String location, Boolean open){
+    public CategoryModel(String category, String imageRef, String location, Boolean open){
         this.category = category;
         this.imageRef = imageRef;
         this.location = location;
