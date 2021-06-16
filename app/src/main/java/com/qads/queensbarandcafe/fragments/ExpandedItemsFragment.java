@@ -40,6 +40,8 @@ import com.qads.queensbarandcafe.models.OptionsModel;
 import com.qads.queensbarandcafe.models.TypesModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -229,47 +231,50 @@ public class ExpandedItemsFragment extends Fragment{
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                outputID = id;
-                int iter2 = optionsList.size();
-                for (int i = 0; i < iter2; i++) {
-                    Map<String, Object> tempMap = new HashMap<>();
-                    tempMap.put("name", optionsList.get(i).getOptionName());
-                    tempMap.put("quantity", optionsList.get(i).getQuantity());
-                    tempMap.put("price", optionsList.get(i).getTruePrice());
-                    outputOptions.put(optionsList.get(i).getOptionName(), tempMap);
-                }
-                outputMap.put("id", outputID);
-                outputMap.put("name", outputName);
-                outputMap.put("options", outputOptions);
-                outputMap.put("types", outputTypesMap);
-                outputMap.put("allergies", allergiesSelected);
-                outputMap.put("price", totalPrice);
-                outputPrices.put(outputName, totalPrice);
-
-                if (outputLocation.equals("Cafe")) {
-                    for (int j = 0; j < itemQuantity; j++) {
-                        MainActivity.cafeCart.add(outputMap);
-                        MainActivity.cafePrices.add(outputPrices);
+                allergiesDisplayer();
+                if (typesEnforcer()) {
+                    outputID = id;
+                    int iter2 = optionsList.size();
+                    for (int i = 0; i < iter2; i++) {
+                        Map<String, Object> tempMap = new HashMap<>();
+                        tempMap.put("name", optionsList.get(i).getOptionName());
+                        tempMap.put("quantity", optionsList.get(i).getQuantity());
+                        tempMap.put("price", optionsList.get(i).getTruePrice());
+                        outputOptions.put(optionsList.get(i).getOptionName(), tempMap);
                     }
-                }
+                    outputMap.put("id", outputID);
+                    outputMap.put("name", outputName);
+                    outputMap.put("options", outputOptions);
+                    outputMap.put("types", outputTypesMap);
+                    outputMap.put("allergies", allergiesSelected);
+                    outputMap.put("price", totalPrice);
+                    outputPrices.put(outputName, totalPrice);
 
-                if (outputLocation.equals("Bar")) {
-                    for (int j = 0; j < itemQuantity; j++) {
-                        MainActivity.barCart.add(outputMap);
-                        MainActivity.barPrices.add(outputPrices);
+                    if (outputLocation.equals("Cafe")) {
+                        for (int j = 0; j < itemQuantity; j++) {
+                            MainActivity.cafeCart.add(outputMap);
+                            MainActivity.cafePrices.add(outputPrices);
+                        }
                     }
-                }
 
-                if (outputLocation.equals("Buttery")) {
-                    for (int j = 0; j < itemQuantity; j++) {
-                        MainActivity.butteryCart.add(outputMap);
-                        MainActivity.butteryPrices.add(outputPrices);
+                    if (outputLocation.equals("Bar")) {
+                        for (int j = 0; j < itemQuantity; j++) {
+                            MainActivity.barCart.add(outputMap);
+                            MainActivity.barPrices.add(outputPrices);
+                        }
                     }
-                }
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                assert fragmentManager != null;
-                fragmentManager.popBackStack(null, 0);
+                    if (outputLocation.equals("Buttery")) {
+                        for (int j = 0; j < itemQuantity; j++) {
+                            MainActivity.butteryCart.add(outputMap);
+                            MainActivity.butteryPrices.add(outputPrices);
+                        }
+                    }
+
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    assert fragmentManager != null;
+                    fragmentManager.popBackStack(null, 0);
+                }
             }
         });
 
@@ -343,6 +348,7 @@ public class ExpandedItemsFragment extends Fragment{
                                     itemTypesList.add(type);
                                 }
 
+                                Collections.sort(itemTypesList, new priceListSorter());
 
                                 typesList.add(new TypesModel(namesList.get(i), itemTypesList, false));
                             }
@@ -540,6 +546,30 @@ public class ExpandedItemsFragment extends Fragment{
                 outputTypesMap.put(tempType.getTypeTitle(), subTypeMap);
             }
         }
+    }
+
+    public class priceListSorter implements Comparator<List<Object>> {
+        @Override
+        public int compare(List<Object> o1, List<Object> o2) {
+            if(((Number) o1.get(1)).doubleValue() > ((Number) o2.get(1)).doubleValue()){
+                return 1;
+            } else if(((Number) o1.get(1)).doubleValue() < ((Number) o2.get(1)).doubleValue()){
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    private Boolean typesEnforcer(){
+        for(TypesModel type : typesList){
+            if(!type.getTypeChecked()){
+                String typeTitle = type.getTypeTitle();
+                Toast.makeText(getContext(), "Please Select " + typeTitle, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
     }
 
     private void buttonSetter(){

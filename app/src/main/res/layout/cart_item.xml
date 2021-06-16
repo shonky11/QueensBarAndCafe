@@ -8,8 +8,10 @@
     <RelativeLayout
         android:id="@+id/rel"
         android:layout_width="match_parent"
+        android:minHeight="?android:attr/listPreferredItemHeight"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp">
 
         <TextView
             android:id="@+id/name"
@@ -18,9 +20,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:text="Coffee_Item" />
+
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="16dp"
+            android:visibility="visible"
+            android:src="@drawable/cart_info"/>
 
         <TextView
             android:id="@+id/description"
@@ -29,8 +41,8 @@
             android:layout_below="@+id/name"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
             android:textSize="16dp"
+            android:visibility="gone"
             android:text="No Options"/>
 
         <TextView
@@ -61,6 +73,6 @@
         android:layout_marginLeft="16dp"
         android:layout_below="@+id/rel"
         android:layout_marginRight="16dp"
-        android:background="@color/colorPrimary" />
+        android:background="@color/scroll" />
 
 </RelativeLayout>

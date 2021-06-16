@@ -1,5 +1,6 @@
 package com.qads.queensbarandcafe.fragments;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,13 @@ public class CartFragment extends Fragment {
             }
         });
 
+        adapter.setOnItemClickListener(new CartAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                expandItem(v, position);
+            }
+        });
+
         tempCafePriceList = MainActivity.cafePrices;
         tempCafeCartList = MainActivity.cafeCart;
         tempBarCartList = MainActivity.barCart;
@@ -133,8 +141,20 @@ public class CartFragment extends Fragment {
                 String tempPriceString = String.format("%.2f", tempPrice);
                 String tempPriceinPounds = "£" + tempPriceString;
 
+                String tempDesc = "Details:" + "\n";
+
+                Map<String, Map<String, Object>> tempAllTypes = new HashMap<String, Map<String, Object>>();
+                tempAllTypes = (Map<String, Map<String, Object>>) tempMap.get("types");
+                for (String key : tempAllTypes.keySet()) {
+                    Map<String, Object> tempType = new HashMap<>();
+                    tempType = (Map<String, Object>) tempAllTypes.get(key);
+                    String tempTypeName = (String) key;
+                    String tempTypeSelected = (String) tempType.get("name").toString();
+
+                    tempDesc = tempDesc + tempTypeName + ":   " + tempTypeSelected + "\n";
+                }
+
                 Map<String, Object> tempAllOptions = new HashMap<>();
-                String tempDesc = "";
                 tempAllOptions = (Map<String, Object>) tempMap.get("options");
                 for (String key : tempAllOptions.keySet()) {
                     Map<String, Object> tempOption = new HashMap<>();
@@ -143,6 +163,20 @@ public class CartFragment extends Fragment {
                     String tempOptionQuantity = (String) tempOption.get("quantity").toString();
 
                     tempDesc = tempDesc + tempOptionName + ":   " + tempOptionQuantity + "\n";
+                }
+
+                tempDesc = tempDesc + "\n" + "Allergies:" + "\n";
+
+                List<String> tempAllAllergies = new ArrayList<String>();
+                tempAllAllergies = (List<String>) tempMap.get("allergies");
+                for (int j = 0; j <  tempAllAllergies.size() - 1; j++){
+                    tempDesc = tempDesc + tempAllAllergies.get(j) + "\n";
+                }
+
+                if(tempAllAllergies.size() != 0 && tempAllAllergies != null) {
+                    tempDesc = tempDesc + tempAllAllergies.get(tempAllAllergies.size() - 1);
+                } else {
+                    tempDesc = tempDesc + "None";
                 }
 
                 list.add(new CartModel(tempName, tempPriceinPounds, tempDesc, "Cafe"));
@@ -167,8 +201,20 @@ public class CartFragment extends Fragment {
                 String tempPriceString = String.format("%.2f", tempPrice);
                 String tempPriceinPounds = "£" + tempPriceString;
 
+                String tempDesc = "Details:" + "\n";
+
+                Map<String, Map<String, Object>> tempAllTypes = new HashMap<String, Map<String, Object>>();
+                tempAllTypes = (Map<String, Map<String, Object>>) tempMap.get("types");
+                for (String key : tempAllTypes.keySet()) {
+                    Map<String, Object> tempType = new HashMap<>();
+                    tempType = (Map<String, Object>) tempAllTypes.get(key);
+                    String tempTypeName = (String) key;
+                    String tempTypeSelected = (String) tempType.get("name").toString();
+
+                    tempDesc = tempDesc + tempTypeName + ":   " + tempTypeSelected + "\n";
+                }
+
                 Map<String, Object> tempAllOptions = new HashMap<>();
-                String tempDesc = "";
                 tempAllOptions = (Map<String, Object>) tempMap.get("options");
                 for (String key : tempAllOptions.keySet()) {
                     Map<String, Object> tempOption = new HashMap<>();
@@ -177,6 +223,20 @@ public class CartFragment extends Fragment {
                     String tempOptionQuantity = (String) tempOption.get("quantity").toString();
 
                     tempDesc = tempDesc + tempOptionName + ":   " + tempOptionQuantity + "\n";
+                }
+
+                tempDesc = tempDesc + "\n" + "Allergies:" + "\n";
+
+                List<String> tempAllAllergies = new ArrayList<String>();
+                tempAllAllergies = (List<String>) tempMap.get("allergies");
+                for (int j = 0; j <  tempAllAllergies.size() - 1; j++){
+                    tempDesc = tempDesc + tempAllAllergies.get(j) + "\n";
+                }
+
+                if(tempAllAllergies.size() != 0 && tempAllAllergies != null) {
+                    tempDesc = tempDesc + tempAllAllergies.get(tempAllAllergies.size() - 1);
+                } else {
+                    tempDesc = tempDesc + "None";
                 }
 
                 list.add(new CartModel(tempName, tempPriceinPounds, tempDesc, "Bar"));
@@ -201,8 +261,20 @@ public class CartFragment extends Fragment {
                 String tempPriceString = String.format("%.2f", tempPrice);
                 String tempPriceinPounds = "£" + tempPriceString;
 
+                String tempDesc = "Details:" + "\n";
+
+                Map<String, Map<String, Object>> tempAllTypes = new HashMap<String, Map<String, Object>>();
+                tempAllTypes = (Map<String, Map<String, Object>>) tempMap.get("types");
+                for (String key : tempAllTypes.keySet()) {
+                    Map<String, Object> tempType = new HashMap<>();
+                    tempType = (Map<String, Object>) tempAllTypes.get(key);
+                    String tempTypeName = (String) key;
+                    String tempTypeSelected = (String) tempType.get("name").toString();
+
+                    tempDesc = tempDesc + tempTypeName + ":   " + tempTypeSelected + "\n";
+                }
+
                 Map<String, Object> tempAllOptions = new HashMap<>();
-                String tempDesc = "";
                 tempAllOptions = (Map<String, Object>) tempMap.get("options");
                 for (String key : tempAllOptions.keySet()) {
                     Map<String, Object> tempOption = new HashMap<>();
@@ -211,6 +283,20 @@ public class CartFragment extends Fragment {
                     String tempOptionQuantity = (String) tempOption.get("quantity").toString();
 
                     tempDesc = tempDesc + tempOptionName + ":   " + tempOptionQuantity + "\n";
+                }
+
+                tempDesc = tempDesc + "\n" + "Allergies:" + "\n";
+
+                List<String> tempAllAllergies = new ArrayList<String>();
+                tempAllAllergies = (List<String>) tempMap.get("allergies");
+                for (int j = 0; j <  tempAllAllergies.size() - 1; j++){
+                    tempDesc = tempDesc + tempAllAllergies.get(j) + "\n";
+                }
+
+                if(tempAllAllergies.size() != 0 && tempAllAllergies != null) {
+                    tempDesc = tempDesc + tempAllAllergies.get(tempAllAllergies.size() - 1);
+                } else {
+                    tempDesc = tempDesc + "None";
                 }
 
                 list.add(new CartModel(tempName, tempPriceinPounds, tempDesc, "Buttery"));
@@ -386,6 +472,22 @@ public class CartFragment extends Fragment {
 
 
         return(rootView);
+    }
+
+    private void expandItem(View v, int position){
+        ImageView infoButton = (ImageView) v.findViewById(R.id.info);
+        TextView description = (TextView) v.findViewById(R.id.description);
+
+        if(description.getVisibility() == View.VISIBLE && infoButton.getVisibility() == View.GONE){
+            description.setVisibility(View.GONE);
+            infoButton.setVisibility(View.VISIBLE);
+        } else if(description.getVisibility() == View.GONE && infoButton.getVisibility() == View.VISIBLE){
+            description.setVisibility(View.VISIBLE);
+            infoButton.setVisibility(View.GONE);
+        } else {
+            description.setVisibility(View.GONE);
+            infoButton.setVisibility(View.VISIBLE);
+        }
     }
 
     private void deleteItem(int position){

@@ -19,6 +19,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     private ArrayList<CartModel> cartSet;
     private int total_types;
     private OnDeleteClickListener mDeleteClickListener;
+    private OnItemClickListener mItemClickListener;
 
     public CartAdapter(ArrayList<CartModel> list) {
         this.cartSet = list;
@@ -30,12 +31,20 @@ public class CartAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+
     public interface OnDeleteClickListener {
         void onDeleteClick(View v, int position);
     }
 
-    public void setOnDeleteClickListener(CartAdapter.OnDeleteClickListener listener) {
-        mDeleteClickListener = listener;
+    public void setOnDeleteClickListener(CartAdapter.OnDeleteClickListener deleteListener) {
+        mDeleteClickListener = deleteListener;
+    }
+
+    public void setOnItemClickListener(CartAdapter.OnItemClickListener itemListener){
+        mItemClickListener = itemListener;
     }
 
     @NonNull
@@ -85,6 +94,16 @@ public class CartAdapter extends RecyclerView.Adapter {
                         if (position != RecyclerView.NO_POSITION) {
                             mDeleteClickListener.onDeleteClick(itemView, position);
                         }
+                    }
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mItemClickListener.onItemClick(itemView, position);
                     }
                 }
             });

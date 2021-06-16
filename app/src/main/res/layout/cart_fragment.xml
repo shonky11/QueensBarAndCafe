@@ -106,14 +106,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:scrollbars="vertical"
-                android:fadeScrollbars="false"
-                android:divider="@null"
-                android:scrollbarThumbVertical="@color/colorPrimary"
-                android:scrollbarTrackVertical="@color/scroll"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarStyle="insideOverlay"/>
+                android:layout_height="wrap_content"
+                android:divider="@null" />
 
             <TextView
                 android:id="@+id/details"
