@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -79,7 +81,7 @@ public class ExpandedItemsFragment extends Fragment{
     private Double totalPrice = 0.00;
     private Double typesPrice = 0.00;
     private SwipeRefreshLayout swipeContainer;
-    private TextView noOps;
+    private LinearLayout opsGroup;
     private TextView allergiesLister;
     private TextView itemAllergies;
     private Map<String, Map<String, Object>> itemTypes = new HashMap<String, Map<String, Object>>();
@@ -148,7 +150,7 @@ public class ExpandedItemsFragment extends Fragment{
         itemInc = rootView.findViewById(R.id.item_plus);
         itemDec = rootView.findViewById(R.id.item_minus);
         bigpic = rootView.findViewById(R.id.expandedPic);
-        noOps = rootView.findViewById(R.id.noops);
+        opsGroup = rootView.findViewById(R.id.options_view);
         itemAllergies = rootView.findViewById(R.id.item_allergens);
         allergiesEntered = rootView.findViewById(R.id.dietary);
 
@@ -360,8 +362,7 @@ public class ExpandedItemsFragment extends Fragment{
                         int iterops = menuItem.getOptionsList().size();
 
                         if (iterops != 0) {
-                            optionsView.setVisibility(View.VISIBLE);
-                            noOps.setVisibility(View.GONE);
+                            opsGroup.setVisibility(View.VISIBLE);
                             for (int i = 0; i < iterops; i++){
                                 Map<String, Object> optionLoad= (Map<String, Object>) menuItem.getOptionsList().get(i);
                                 Boolean can_have_multiple = (Boolean) optionLoad.get("can_have_multiple");
@@ -372,8 +373,7 @@ public class ExpandedItemsFragment extends Fragment{
                             }
                             optionsAdapter.notifyDataSetChanged();
                         }else if (iterops == 0){
-                            optionsView.setVisibility(View.GONE);
-                            noOps.setVisibility(View.VISIBLE);
+                            opsGroup.setVisibility(View.GONE);
                         }
 
 

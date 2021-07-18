@@ -107,7 +107,26 @@
                 android:layout_marginRight="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:divider="@null" />
+
+            <View
+                android:id="@+id/shaddow1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
+
+            <View
+                android:id="@+id/spacing1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#E3E3E3" />
+
+            <View
+                android:id="@+id/shaddow2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
 
             <TextView
                 android:id="@+id/details"
@@ -189,7 +208,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="32dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -212,18 +232,89 @@
 
             </LinearLayout>
 
+            <View
+                android:id="@+id/shaddow10"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
+
+            <View
+                android:id="@+id/spacing5"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#E3E3E3" />
+
+            <View
+                android:id="@+id/shaddow9"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
+
             <TextView
-                android:id="@+id/OrderNotes"
+                android:id="@+id/table_number_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif"
-                android:text="Order Notes:"
+                android:text="Table Number:"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="normal" />
+
+            <View
+                android:id="@+id/divider5.1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/table_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:hint="Please add your table or room number here"
+                />
+
+            <View
+                android:id="@+id/shaddow8"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
+
+            <View
+                android:id="@+id/spacing4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#E3E3E3" />
+
+            <View
+                android:id="@+id/shaddow7"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
+
+            <TextView
+            android:id="@+id/OrderNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif"
+            android:text="Order Notes:"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="normal" />
 
             <View
                 android:id="@+id/divider5"
@@ -240,10 +331,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
+                android:gravity="center"
+                android:layout_marginBottom="32dp"
                 android:layout_marginRight="16dp"
                 android:textSize="16dp"
                 android:hint="Please add any dietary requirements here"
                 />
+
+            <View
+                android:id="@+id/shaddow5"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
+
+            <View
+                android:id="@+id/spacing3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#E3E3E3" />
+
+            <View
+                android:id="@+id/shaddow6"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#CCC6C6C6" />
 
             <Button
                 android:id="@+id/order"
@@ -258,7 +369,8 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
                 android:text="ORDER"
                 android:textColor="#ffffff" />
 
@@ -268,7 +380,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="32dp">
 
                 <TextView
                     android:id="@+id/UpayText"
@@ -280,7 +392,7 @@
                     android:text="Please make sure your UPay is topped up before ordering."
                     android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="normal" />
 
                 <LinearLayout
@@ -299,7 +411,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="Confirm"
                         android:textColor="#ffffff" />
                     <Button
@@ -312,7 +424,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="Cancel"
                         android:textColor="#ffffff" />
 
