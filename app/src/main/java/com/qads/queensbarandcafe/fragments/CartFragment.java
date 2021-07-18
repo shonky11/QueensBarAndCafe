@@ -77,6 +77,7 @@ public class CartFragment extends Fragment {
         next = rootView.findViewById(R.id.order);
         back = rootView.findViewById(R.id.upayNo);
         final EditText dietary = rootView.findViewById(R.id.dietary);
+        final EditText table = rootView.findViewById(R.id.table_number);
         mFirebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -304,8 +305,6 @@ public class CartFragment extends Fragment {
             }
         }
 
-        String value = dietary.getText().toString();
-
         adapter.notifyDataSetChanged();
 
         totalCalc();
@@ -343,6 +342,7 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
                 totalCalc();
                 String notes = dietary.getText().toString();
+                String tablenum = table.getText().toString();
                 Timestamp now = Timestamp.now();
 
                 Integer size1 = tempCafeCartList.size();
@@ -366,6 +366,7 @@ public class CartFragment extends Fragment {
                     cafe.put("name", outputName);
                     cafe.put("items", MainActivity.cafeCart);
                     cafe.put("note", notes);
+                    cafe.put("table", tablenum);
 
                     String newDoc = db.collection("orders").document().getId();
                     db.collection("orders").document(newDoc)
@@ -391,6 +392,7 @@ public class CartFragment extends Fragment {
                     bar.put("name", outputName);
                     bar.put("items", MainActivity.barCart);
                     bar.put("note", notes);
+                    bar.put("table", tablenum);
 
                     String newDoc = db.collection("orders").document().getId();
                     db.collection("orders").document(newDoc)
@@ -415,6 +417,7 @@ public class CartFragment extends Fragment {
                     buttery.put("name", outputName);
                     buttery.put("items", MainActivity.butteryCart);
                     buttery.put("note", notes);
+                    buttery.put("table", tablenum);
 
                     String newDoc = db.collection("orders").document().getId();
                     db.collection("orders").document(newDoc)
