@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtfirstname, txtlastname;
     CardView signupbtn;
     TextView privacyPolicy;
+    CheckBox checkBox;
 
     // Firebase instance variable
     private FirebaseAuth mFirebaseAuth;
@@ -46,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private DocumentReference docRef = db.collection("users").document(userid);
 
     private DocumentReference docRef2 = db.collection("settings").document("link");
+
 
     private String TAG = "MyActivity";
 
@@ -70,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //need to add the privacy policy website
         //need to add the signout button
+
+        checkBox = findViewById(R.id.checkbox);
 
         docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -96,6 +101,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(first_name.isEmpty() || last_name.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+                }else if (!checkBox.isChecked()){
+                    Toast.makeText(getApplicationContext(), "Please check the tick box", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     UserModel users = new UserModel(crsid, mFirebaseAuth.getUid(), first_name, last_name, email);
