@@ -1,5 +1,6 @@
 package com.qads.queensbarandcafe.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -20,7 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.qads.queensbarandcafe.R;
+import com.qads.queensbarandcafe.activities.LoginActivity;
 import com.qads.queensbarandcafe.models.CategoryModel;
 import com.qads.queensbarandcafe.adapters.CategoryAdapter;
 
@@ -39,6 +45,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class BarFragment extends Fragment {
+
+    ImageView signout_btn;
 
     ArrayList<CategoryModel> categories;
     private RecyclerView eventsView;
@@ -111,6 +119,8 @@ public class BarFragment extends Fragment {
             }
         });
 
+        signOut(rootView);
+
         return rootView;
     }
 
@@ -123,6 +133,20 @@ public class BarFragment extends Fragment {
         super.onStop();
         catsReg.remove();
         locReg.remove();
+    }
+
+    public void signOut(View v) {
+        //SIGN OUT METHOD
+        signout_btn = v.findViewById(R.id.sign_out);
+        signout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mFirebaseAuth.getInstance().signOut();
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
