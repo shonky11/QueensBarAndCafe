@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         txtfirstname = (EditText) findViewById(R.id.first);
         txtlastname = (EditText) findViewById(R.id.last);
         privacyPolicy = (TextView) findViewById(R.id.privacy_policy_hyperlink);
-        privacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+        //privacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
 
         //gets current instance of the database
         mFirebaseAuth = FirebaseAuth.getInstance();

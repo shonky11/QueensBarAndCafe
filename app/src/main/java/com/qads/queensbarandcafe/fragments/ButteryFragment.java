@@ -24,11 +24,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.qads.queensbarandcafe.R;
 import com.qads.queensbarandcafe.activities.LoginActivity;
+import com.qads.queensbarandcafe.activities.SignUpActivity;
 import com.qads.queensbarandcafe.models.CategoryModel;
 import com.qads.queensbarandcafe.adapters.CategoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,6 +64,11 @@ public class ButteryFragment extends Fragment {
     private ListenerRegistration catsReg;
     public static Boolean butteryOpen = false;
     private ListenerRegistration locReg;
+
+    final String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    //this retrieves the entire document with this specific uid
+    private DocumentReference userRef = db.collection("users").document(userid);
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -140,7 +147,7 @@ public class ButteryFragment extends Fragment {
             public void onClick(View view) {
                 //mFirebaseAuth.getInstance().signOut();
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                Intent intent = new Intent(getActivity(), SignUpActivity.class);
                 startActivity(intent);
             }
         });

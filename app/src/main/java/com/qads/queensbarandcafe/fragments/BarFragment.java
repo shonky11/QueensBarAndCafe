@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.qads.queensbarandcafe.R;
 import com.qads.queensbarandcafe.activities.LoginActivity;
+import com.qads.queensbarandcafe.activities.SignUpActivity;
 import com.qads.queensbarandcafe.models.CategoryModel;
 import com.qads.queensbarandcafe.adapters.CategoryAdapter;
 
@@ -143,7 +144,7 @@ public class BarFragment extends Fragment {
             public void onClick(View view) {
                 //mFirebaseAuth.getInstance().signOut();
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                Intent intent = new Intent(getActivity(), SignUpActivity.class);
                 startActivity(intent);
             }
         });
